@@ -1502,3 +1502,23 @@ class HomeRequestHandler(RegisterBaseHandler):
         params = {}
         return self.render_template('home.html', **params)
 
+class HomeRequestHandler(RegisterBaseHandler):
+    """
+    Handler to show the home page
+    """
+
+    def get(self):
+        """ Returns a simple HTML form for home """
+        params = {}
+        return self.render_template('home.html', **params)
+
+
+class RandomRequestHandler(RegisterBaseHandler):
+    """
+    Handler to show the home page
+    """
+
+    def get(self):
+        """ Returns a simple HTML form for home """
+        params = {}
+        return self.render_template('random.html', **params)
