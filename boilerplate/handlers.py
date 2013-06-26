@@ -1078,6 +1078,11 @@ class EditProfileHandler(BaseHandler):
             self.form.name.data = user_info.name
             self.form.last_name.data = user_info.last_name
             self.form.country.data = user_info.country
+            self.form.pm.data = user_info.pm
+            self.form.contribution.data = user_info.contribution
+            self.form.occupation.data = user_info.occupation
+            self.form.dob.data = user_info.dob
+
             providers_info = user_info.get_social_providers_info()
             if not user_info.password:
                 params['local_account'] = False
@@ -1098,6 +1103,10 @@ class EditProfileHandler(BaseHandler):
         name = self.form.name.data.strip()
         last_name = self.form.last_name.data.strip()
         country = self.form.country.data
+        pm = self.form.pm.data
+        contribution = self.form.contribution.data
+        occupation = self.form.occupation.data
+        dob = self.form.dob.data
 
         try:
             user_info = models.User.get_by_id(long(self.user_id))
@@ -1130,6 +1139,10 @@ class EditProfileHandler(BaseHandler):
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
+                user_info.pm = pm
+                user_info.contribution = contribution
+                user_info.occupation = occupation
+                user_info.dob = dob
                 user_info.put()
                 message+= " " + _('Thanks, your settings have been saved.')
                 self.add_message(message, 'success')
@@ -1505,17 +1518,6 @@ class HomeRequestHandler(RegisterBaseHandler):
         """ Returns a simple HTML form for home """
         params = {}
         return self.render_template('home.html', **params)
-
-class HomeRequestHandler(RegisterBaseHandler):
-    """
-    Handler to show the home page
-    """
-
-    def get(self):
-        """ Returns a simple HTML form for home """
-        params = {}
-        return self.render_template('home.html', **params)
-
 
 class RandomRequestHandler(RegisterBaseHandler):
     """

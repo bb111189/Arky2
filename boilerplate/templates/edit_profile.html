@@ -13,6 +13,11 @@
                 {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
                 {{ macros.field(form.last_name, label=_("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
                 {{ macros.field(form.country, label=_("Country")) }}
+                {{ macros.field(form.pm, label=_("Personal Message"), placeholder=_("Enter your")+" "+_("Personal Message"), class="input-xlarge focused") }}
+                {{ macros.field(form.occupation, label=_("Occupation"), placeholder=_("Enter your")+" "+_("Occupation"), class="input-xlarge focused") }}
+                {{ macros.field(form.dob, label=_("Date of birth"), placeholder=_("YYYY-MM-DD")) }}
+                {{ macros.field(form.contribution, label=_("Contribution"), class="input-xlarge required", cols="40", rows="8") }}
+
                 <div class="control-group">
                     <label class="control-label">{% trans %}Email{% endtrans %}:</label>
                     <div class="controls">

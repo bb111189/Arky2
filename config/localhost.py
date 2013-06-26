@@ -17,7 +17,7 @@ config = {
                            'environment_args': {'extensions': ['jinja2.ext.i18n']}},
 
 # application name
-'app_name' : "Google App Engine Boilerplate",
+'app_name' : "The Arky",
 
 # the default language code for the application.
 # should match whatever language the site uses when i18n is disabled
@@ -32,8 +32,8 @@ config = {
 'locales' : ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID', 'fr_FR', 'de_DE', 'ru_RU', 'pt_BR', 'cs_CZ'],
 
 # contact page email settings
-'contact_sender' : "PUT_SENDER_EMAIL_HERE",
-'contact_recipient' : "PUT_RECIPIENT_EMAIL_HERE",
+'contact_sender' : "tanjunhao@outlook.com",
+'contact_recipient' : "tanjunhao@outlook.com",
 
 # Password AES Encryption Parameters
 'aes_key' : "12_24_32_BYTES_KEY_FOR_PASSWORDS",
