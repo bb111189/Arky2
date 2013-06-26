@@ -81,7 +81,8 @@ def handle_error(request, response, exception):
 
     if request.app.config.get('send_mail_developer') is not False:
         # send email
-        subject         = "[{}] ERROR {}".format(request.app.config.get('environment').upper(), request.app.config.get('app_name'))
+        #subject         = "[{}] ERROR {}".format(request.app.config.get('environment').upper(), request.app.config.get('app_name'))
+        subject         = "[{}] ERROR {}".format(request.app.config.get('environment'), request.app.config.get('app_name'))
 
         lines = traceback.format_exception(exc_type, exc_value, exc_tb)
 
