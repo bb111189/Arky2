@@ -18,6 +18,12 @@
             {{ macros.field(form.c_password, label=_("Confirm Password"), placeholder=_("Confirm Password"), class="input-xlarge focused required", type="password") }}
             {% endif %}
             {{ macros.field(form.country, label=_("Country")) }}
+
+            {{ macros.field(form.occupation, label=_("Occupation"), placeholder=_("Enter your")+" "+_("Occupation"), class="input-xlarge focused") }}
+            {{ macros.field(form.contribution, label=_("Contribution"), class="input-xlarge required", cols="40", rows="8") }}
+            {{ macros.field(form.pm, label=_("Pm"), class="input-xlarge required", cols="40", rows="4") }}
+            {{ macros.field(form.dob, label=_("Date of birth"), placeholder=_("YYYY-MM-DD")) }}
+
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>
             </div>

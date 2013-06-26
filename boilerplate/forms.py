@@ -47,6 +47,10 @@ class UserMixin(BaseForm):
     last_name = fields.TextField(_('Last Name'), [validators.Length(max=FIELD_MAXLENGTH)])
     country = fields.SelectField(_('Country'), choices=utils.COUNTRIES)
 
+    contribution = fields.TextAreaField(_('Contribution'), [validators.Required(), validators.Length(max=65536)])
+    pm = fields.TextAreaField(_('Pm'), [validators.Length(max=160)])
+    occupation = fields.TextField(_('Name'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+    dob = fields.DateField(_('Dob'), [validators.required()]) #future work: regex for date
 
 class PasswordResetCompleteForm(PasswordMixin, ConfirmPasswordMixin):
     pass

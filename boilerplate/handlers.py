@@ -765,6 +765,10 @@ class RegisterHandler(RegisterBaseHandler):
         email = self.form.email.data.lower()
         password = self.form.password.data.strip()
         country = self.form.country.data
+        occupation = self.form.occupation.data
+        contribution = self.form.contribution.data
+        pm = self.form.pm.data
+        dob = self.form.dob.data
 
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
@@ -777,7 +781,7 @@ class RegisterHandler(RegisterBaseHandler):
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
-            ip=self.request.remote_addr, country=country
+            ip=self.request.remote_addr, country=country, occupation=occupation, contribution=contribution, pm=pm, dob=dob
         )
 
         if not user[0]: #user is a tuple

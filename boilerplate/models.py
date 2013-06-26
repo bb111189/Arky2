@@ -30,7 +30,15 @@ class User(User):
     country = ndb.StringProperty()
     #: Account activation verifies email
     activated = ndb.BooleanProperty(default=False)
-    
+    #: new fields
+    pm = ndb.StringProperty()
+    contribution = ndb.StringProperty()
+    occupation = ndb.StringProperty()
+    dob = ndb.DateProperty()
+
+
+
+
     @classmethod
     def get_by_email(cls, email):
         """Returns a user object based on an email.
