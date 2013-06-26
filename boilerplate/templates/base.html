@@ -57,22 +57,27 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-chevron-down icon"></span>
                 </button>
-                <a class="brand" href="/">{{ app_name }}</a>
+                <a class="brand" href="/">Arky</a>
                 <div class="nav-collapse">
                     <ul class="nav pull-right">
-                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox" ></span> {% trans %}Source Code{% endtrans %}</a></li>
-                        {% if locale_iso %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                {% trans %}Language{% endtrans %} : {{ locale_language }} <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                            	{% for l in locales %}
-                                {% if str(locale_iso) != l %}<li><a href="{{ path_for_language }}&hl={{ l }}">{{ locales[l] }}</a></li>{% endif %}
-                                {% endfor %}
+                        <li>
+                            <ul class="nav nav-pills">
+                              <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Interesting People<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="">Computing</a></li>
+                                    <li><a href="">Business</a></li>
+                                    <li><a href="">Gamers</a></li>
+                                    <li><a href="">Chefs</a></li>
+                                    <li><a href="">Science</a></li>
+                                </ul>
+                              </li>
                             </ul>
                         </li>
-                        {% endif %}
+                        <li><a href="">About Us</a></li>
+                        <li><a href="">Contact</a></li>
                         {% if user_id %}
                         <li class="divider-vertical"></li>
                         <li class="dropdown">
@@ -166,7 +171,7 @@
 
             {% block footer %}
             <footer>
-                {% trans %}Google App Engine Boilerplate is released under the{% endtrans %} <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">LGPL</a>
+                Arky is currently in alpha phase
             </footer>
             {% endblock %}
         </div><!-- /content -->
