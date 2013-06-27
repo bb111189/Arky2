@@ -13,7 +13,7 @@ import logging
 import random
 import re
 import json
-
+import time
 # related third party imports
 import webapp2
 import httpagentparser
@@ -769,6 +769,8 @@ class RegisterHandler(RegisterBaseHandler):
         contribution = self.form.contribution.data
         pm = self.form.pm.data
         dob = self.form.dob.data
+        activated = False
+
 
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
@@ -797,6 +799,9 @@ class RegisterHandler(RegisterBaseHandler):
             # User registered successfully
             # But if the user registered using the form, the user has to check their email to activate the account ???
             try:
+                #user_info = models.User.get_by_email(email)
+                #user_info = models.User.get_by_id(long(self.user_id))
+                time.sleep(0.5)
                 user_info = models.User.get_by_email(email)
                 if (user_info.activated == False):
                     # send email
@@ -873,7 +878,8 @@ class RegisterHandler(RegisterBaseHandler):
                 return self.redirect_to('home')
             except (AttributeError, KeyError), e:
                 logging.error('Unexpected error creating the user %s: %s' % (username, e ))
-                message = _('Unexpected error creating the user %s' % username )
+                message = _('Unexpected error creating the user %s' % e )
+                #message = _('Unexpected error creating the user %s' % username )
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
 

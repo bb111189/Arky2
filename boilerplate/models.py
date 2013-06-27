@@ -22,6 +22,7 @@ class User(User):
     last_name = ndb.StringProperty()
     #: User email
     email = ndb.StringProperty()
+
     #: Hashed password. Only set for own authentication.
     # Not required because third party authentication
     # doesn't use password.
