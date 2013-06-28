@@ -29,6 +29,7 @@ _routes = [
     RedirectRoute('/change-email/<user_id>/<encoded_email>/<token>', handlers.EmailChangedCompleteHandler, name='email-changed-check', strict_slash=True),
     RedirectRoute('/abtest/', handlers.AbTestHandler, name='abtest', strict_slash=True),
     RedirectRoute('/random', handlers.RandomRequestHandler, name='random', strict_slash=True),
+    RedirectRoute('/randomdaily', handlers.RandomScheduledRequestHandler, name='randomdaily', strict_slash=True),
     RedirectRoute('/', handlers.HomeRequestHandler, name='home', strict_slash=True)
 
 ]

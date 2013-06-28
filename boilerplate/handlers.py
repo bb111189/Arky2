@@ -1567,3 +1567,25 @@ class RandomRequestHandler(RegisterBaseHandler):
         'contribution': user_info.contribution,
         }
         return self.render_template('random.html', **template_values)
+
+class RandomScheduledRequestHandler(RegisterBaseHandler):
+    def get(self):
+        while 1==1:
+            randNo = random.randint(1, models.User.id_gen())
+            user_info = models.User.get_by_id_no(randNo)
+            if user_info is not None or user_info.activated == True:
+                break
+
+        user_info = models.User.get_by_id_no(randNo)
+
+        if models.RandomDaily.count() == 0:
+            cap = models.RandomDaily(role='captain',
+                id_No=randNo)
+            cap.put()
+        else:
+            cap = models.RandomDaily.get_by_role('captain')
+            cap.id_No = randNo
+            cap.put()
+
+
+

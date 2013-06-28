@@ -1,8 +1,32 @@
 from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext import ndb, db
-import random
 
 
+class RandomDaily(User):
+
+    role = ndb.StringProperty()
+    id_no = ndb.IntegerProperty()
+
+    @classmethod
+    def get_by_role(cls, role):
+        """Returns a user object based on an id_no.
+
+        :param role:
+            String representing the user role. Examples:
+
+        :returns:
+            A user object.
+        """
+        return cls.query(cls.role == role).get()
+
+    @classmethod
+    def count(cls):
+        q = cls.query()
+        results = q.fetch()
+        count = 0
+        for item in results:
+            count += 1
+        return count
 
 class User(User):
     """
