@@ -1524,8 +1524,36 @@ class HomeRequestHandler(RegisterBaseHandler):
 
     def get(self):
         """ Returns a simple HTML form for home """
-        params = {}
-        return self.render_template('home.html', **params)
+        cap = models.RandomDaily.get_by_role('captain')
+        cap_info = models.User.get_by_id_no(cap.id_No)
+
+        today = date.today()
+        born = cap_info.dob
+
+        """ Age calculator """
+        try:
+            birthday = born.replace(year=today.year)
+        except ValueError: # raised when birth date is February 29 and the current year is not a leap year
+            birthday = born.replace(year=today.year, day=born.day-1)
+        if birthday > today:
+            age = today.year - born.year - 1
+        else:
+            age = today.year - born.year
+
+        """ country code convertor """
+        country = pycountry.countries.get(alpha2=cap_info.country)
+
+        template_values = {
+        'name': cap_info.name,
+        'country': country.name,
+        'pm': cap_info.pm,
+        'occupation': cap_info.occupation,
+        'age': age,
+        'contribution': cap_info.contribution,
+        }
+        return self.render_template('random.html', **template_values)
+
+
 
 class RandomRequestHandler(RegisterBaseHandler):
     """
