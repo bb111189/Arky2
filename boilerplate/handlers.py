@@ -1587,5 +1587,6 @@ class RandomScheduledRequestHandler(RegisterBaseHandler):
             cap.id_No = randNo
             cap.put()
 
-
+        params = {}
+        return self.render_template('errors/forbidden_access.html', **params)
 
