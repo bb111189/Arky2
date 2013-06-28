@@ -1564,5 +1564,6 @@ class RandomRequestHandler(RegisterBaseHandler):
         'pm': user_info.pm,
         'occupation': user_info.occupation,
         'age': age,
+        'contribution': user_info.contribution,
         }
         return self.render_template('random.html', **template_values)
