@@ -92,7 +92,6 @@ config = {
 
 # fellas' list
 'developers' : (
-    ('Tan RongShun', 'phobiatrs@gmail.com'),
     ('Tan Jun Hao', 'bb111189@gmail.com')
 ),
 

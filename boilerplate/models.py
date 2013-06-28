@@ -56,6 +56,18 @@ class User(User):
         return cls.query(cls.email == email).get()
 
     @classmethod
+    def get_by_id_no(cls, id_no):
+        """Returns a user object based on an id_no.
+
+        :param id_no:
+            Int representing the user id. Examples:
+
+        :returns:
+            A user object.
+        """
+        return cls.query(cls.id_no == id_no).get()
+
+    @classmethod
     def id_gen(cls):
         q = cls.query()
         results = q.fetch()

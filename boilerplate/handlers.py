@@ -27,8 +27,9 @@ from google.appengine.api.datastore_errors import BadValueError
 from google.appengine.runtime import apiproxy_errors
 from github import github
 from linkedin import linkedin
-
+from datetime import date
 # local application/library specific imports
+
 import models
 import forms as forms
 from lib import utils, captcha, twitter
@@ -1533,5 +1534,31 @@ class RandomRequestHandler(RegisterBaseHandler):
 
     def get(self):
         """ Returns a simple HTML form for home """
-        params = {}
-        return self.render_template('random.html', **params)
+
+        while 1==1:
+            randNo = random.randint(1, models.User.id_gen())
+            user_info = models.User.get_by_id_no(randNo)
+            if user_info is not None or user_info.activated == True:
+                break
+
+        user_info = models.User.get_by_id_no(randNo)
+        today = date.today()
+        born = user_info.dob
+
+        try:
+            birthday = born.replace(year=today.year)
+        except ValueError: # raised when birth date is February 29 and the current year is not a leap year
+            birthday = born.replace(year=today.year, day=born.day-1)
+        if birthday > today:
+            age = today.year - born.year - 1
+        else:
+            age = today.year - born.year
+
+        template_values = {
+        'name': user_info.name,
+        'country': user_info.country,
+        'pm': user_info.pm,
+        'occupation': user_info.occupation,
+        'age': age,
+        }
+        return self.render_template('random.html', **template_values)
