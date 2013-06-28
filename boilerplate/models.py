@@ -1,5 +1,7 @@
 from webapp2_extras.appengine.auth.models import User
-from google.appengine.ext import ndb
+from google.appengine.ext import ndb, db
+import random
+
 
 
 class User(User):
@@ -36,6 +38,7 @@ class User(User):
     contribution = ndb.StringProperty()
     occupation = ndb.StringProperty()
     dob = ndb.DateProperty()
+    id_no = ndb.IntegerProperty(default=0)
 
 
 
@@ -51,6 +54,16 @@ class User(User):
             A user object.
         """
         return cls.query(cls.email == email).get()
+
+    @classmethod
+    def id_gen(cls):
+        q = cls.query()
+        results = q.fetch()
+        count = 0
+        for item in results:
+            count += 1
+        return count
+
 
     @classmethod
     def create_resend_token(cls, user_id):
@@ -157,3 +170,4 @@ class SocialUser(ndb.Model):
     @staticmethod
     def open_id_providers():
         return [k for k,v in SocialUser.PROVIDERS_INFO.items() if v['uri']]
+

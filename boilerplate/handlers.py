@@ -769,8 +769,7 @@ class RegisterHandler(RegisterBaseHandler):
         contribution = self.form.contribution.data
         pm = self.form.pm.data
         dob = self.form.dob.data
-        activated = False
-
+        id_no = models.User.id_gen() + 1
 
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
@@ -783,7 +782,7 @@ class RegisterHandler(RegisterBaseHandler):
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
-            ip=self.request.remote_addr, country=country, occupation=occupation, contribution=contribution, pm=pm, dob=dob
+            ip=self.request.remote_addr, country=country, occupation=occupation, contribution=contribution, pm=pm, dob=dob, id_no=id_no
         )
 
         if not user[0]: #user is a tuple
@@ -799,10 +798,12 @@ class RegisterHandler(RegisterBaseHandler):
             # User registered successfully
             # But if the user registered using the form, the user has to check their email to activate the account ???
             try:
-                #user_info = models.User.get_by_email(email)
-                #user_info = models.User.get_by_id(long(self.user_id))
+
                 time.sleep(0.5)
                 user_info = models.User.get_by_email(email)
+                idNo = models.User.id_gen()
+
+
                 if (user_info.activated == False):
                     # send email
                     subject =  _("%s Account Verification" % self.app.config.get('app_name'))
@@ -829,7 +830,7 @@ class RegisterHandler(RegisterBaseHandler):
                         })
 
                     message = _('You were successfully registered. '
-                                'Please check your email to activate your account.')
+                                'Please check your email to activate your account. ' )
                     self.add_message(message, 'success')
                     return self.redirect_to('home')
 
@@ -878,7 +879,7 @@ class RegisterHandler(RegisterBaseHandler):
                 return self.redirect_to('home')
             except (AttributeError, KeyError), e:
                 logging.error('Unexpected error creating the user %s: %s' % (username, e ))
-                message = _('Unexpected error creating the user %s' % e )
+                message = _('Unexpected error creating the user %s' % username )
                 #message = _('Unexpected error creating the user %s' % username )
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
