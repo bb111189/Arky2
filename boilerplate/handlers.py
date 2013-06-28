@@ -29,7 +29,7 @@ from github import github
 from linkedin import linkedin
 from datetime import date
 # local application/library specific imports
-
+import pycountry
 import models
 import forms as forms
 from lib import utils, captcha, twitter
@@ -1545,6 +1545,7 @@ class RandomRequestHandler(RegisterBaseHandler):
         today = date.today()
         born = user_info.dob
 
+        """ Age calculator """
         try:
             birthday = born.replace(year=today.year)
         except ValueError: # raised when birth date is February 29 and the current year is not a leap year
@@ -1554,9 +1555,12 @@ class RandomRequestHandler(RegisterBaseHandler):
         else:
             age = today.year - born.year
 
+        """ country code convertor """
+        country = pycountry.countries.get(alpha2=user_info.country)
+
         template_values = {
         'name': user_info.name,
-        'country': user_info.country,
+        'country': country.name,
         'pm': user_info.pm,
         'occupation': user_info.occupation,
         'age': age,
