@@ -63,6 +63,7 @@ class User(User):
     occupation = ndb.StringProperty()
     dob = ndb.DateProperty()
     id_no = ndb.IntegerProperty(default=0)
+    avatar = ndb.BlobProperty()
 
 
 

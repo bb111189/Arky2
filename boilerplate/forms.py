@@ -51,7 +51,7 @@ class UserMixin(BaseForm):
     pm = fields.TextAreaField(_('Pm'), [validators.Length(max=160)])
     occupation = fields.TextField(_('Name'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
     dob = fields.DateField(_('Dob'), [validators.required()]) #future work: regex for date
-
+    avatar = fields.FileField(_('Avatar'))
 class PasswordResetCompleteForm(PasswordMixin, ConfirmPasswordMixin):
     pass
 

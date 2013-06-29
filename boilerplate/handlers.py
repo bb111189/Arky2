@@ -28,6 +28,8 @@ from google.appengine.runtime import apiproxy_errors
 from github import github
 from linkedin import linkedin
 from datetime import date
+from google.appengine.ext import ndb, db
+
 # local application/library specific imports
 import pycountry
 import models
@@ -771,9 +773,10 @@ class RegisterHandler(RegisterBaseHandler):
         pm = self.form.pm.data
         dob = self.form.dob.data
         id_no = models.User.id_gen() + 1
-
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
+        #avatar = self.request.get('avatar')
+        avatar = self.request.get('avatar')
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
@@ -783,7 +786,8 @@ class RegisterHandler(RegisterBaseHandler):
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
-            ip=self.request.remote_addr, country=country, occupation=occupation, contribution=contribution, pm=pm, dob=dob, id_no=id_no
+            ip=self.request.remote_addr, country=country, occupation=occupation,
+            contribution=contribution, pm=pm, dob=dob, id_no=id_no
         )
 
         if not user[0]: #user is a tuple
@@ -802,8 +806,8 @@ class RegisterHandler(RegisterBaseHandler):
 
                 time.sleep(0.5)
                 user_info = models.User.get_by_email(email)
-                idNo = models.User.id_gen()
-
+                user_info.avatar = db.Blob(avatar)
+                user_info.put()
 
                 if (user_info.activated == False):
                     # send email
