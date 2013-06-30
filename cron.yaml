@@ -1,4 +1,4 @@
-#cron:
-#- description: captain random
-#  url: /randomdaily
-#  schedule: every 5 mins
+cron:
+- description: captain random
+  url: /randomdaily
+  schedule: every 5 mins
