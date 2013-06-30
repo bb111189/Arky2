@@ -4,8 +4,7 @@
         {% trans %}Sign Up{% endtrans %}
 {% endblock %}
 
-{% block content %}
-
+{% block crew %}
     <form id="form_register" action="{{ url|safe }}" method="post" class="well form-horizontal" enctype="multipart/form-data">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">

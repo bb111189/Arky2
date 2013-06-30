@@ -5,197 +5,431 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang="{{ locale_language_id }}"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="{{ locale_language_id }}"> <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{% block title %}{{ app_name }}{% endblock %}</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="generator" content="Google App Engine Boilerplate 2.2.0-beta rev516 (g9b1f961)">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>{% block title %}{{ app_name }}{% endblock %}</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="generator" content="Google App Engine Boilerplate 2.2.0-beta rev516 (g9b1f961)">
 
-    <!-- Mobile viewport optimized: h5bp.com/viewport -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/favicon.ico">
-    {% if is_mobile %}
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    {% endif %}
-    <link rel="stylesheet" href="/boilerplate/css/boilerplate.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    {% block mediaCSS %}{% endblock %}
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '{{ google_analytics_code }}']);
-        {% if google_analytics_domain != "" %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link href="/boilerplate/css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="/boilerplate/js/libs/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="/boilerplate/js/libs/bootstrap.js"></script>
+<!-- All JavaScript at the bottom, except this Modernizr build.
+   Modernizr enables HTML5 elements & feature detects for optimal performance. -->
+<script src="/boilerplate/js/libs/modernizr-2.6.1.min.js"></script>
+
+
+{% block mediaCSS %}{% endblock %}
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '{{ google_analytics_code }}']);
+    {% if google_analytics_domain != "" %}
         _gaq.push(['_setDomainName', '{{ google_analytics_domain }}']);
-        {% endif %}
-        _gaq.push(['_trackPageview']);
+    {% endif %}
+    _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-    <!-- All JavaScript at the bottom, except this Modernizr build.
-       Modernizr enables HTML5 elements & feature detects for optimal performance. -->
-    <script src="/boilerplate/js/libs/modernizr-2.6.1.min.js"></script>
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    $(function() {
+        $(".tip").tooltip();
+    });
+
+    $(document).ready(function (){
+
+        $('.masthead').animate({
+            'background-position-x': '0%',
+            'background-position-y': '30%'
+        }, 50000, 'linear');
+
+        $(".crew12button").click(function (){
+            //$(this).animate(function(){
+            $('html, body').animate({
+                scrollTop: $(".crew").offset().top
+            }, 1000);
+            //});
+        });
+
+        $(".crew34button").click(function (){
+            //$(this).animate(function(){
+            $('html, body').animate({
+                scrollTop: $("#crew34").offset().top
+            }, 1000);
+            //});
+        });
+
+        $("#whatisarkybutton").click(function (){
+            //$(this).animate(function(){
+            $('html, body').animate({
+                scrollTop: $("#whatIsArky").offset().top
+            }, 1000);
+            //});
+        });
+
+        $("#topbutton").click(function (){
+            //$(this).animate(function(){
+            $('html, body').animate({
+                scrollTop: $("#top").offset().top
+            }, 500);
+            //});
+        });
+
+        //$('#registrationFrame').load("/register")
+
+    });
+</script>
+
+<style>
+body {
+    padding-top: 0px; /* 60px to make the container go all the way to the bottom of the topbar */
+
+}
+p{
+    color: white;
+}
+a {
+    display: inline-block;
+}
+
+hr
+{
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+    border-style: solid none;
+    border-width: 1px 0;
+    margin: 18px 0;
+}
+
+footer{
+
+    margin-bottom: 0;
+    padding-top: 50px;
+}
+    /*Customize image circle*/
+.img-circle {
+    z-index:
+        -webkit-border-radius: 1000px;
+    -moz-border-radius: 1000px;
+    border-radius: 1000px;
+}
+
+#face-wrapper .face {
+    position: absolute;
+    z-index: 1;
+    -moz-box-shadow: 0px 0px 0px 15px #e8e6e6; /* Firefox */
+    -webkit-box-shadow: 0px 0px 0px 15px #e8e6e6; /* Safari, Chrome */
+    box-shadow: 0px 0px 0px 15px #e8e6e6; /* CSS3 */
+}
+
+    /* CUSTOMIZE THE NAVBAR
+  -------------------------------------------------- */
+
+    /* Special class on .container surrounding .navbar, used for positioning it into place. */
+.navbar-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin-top: 0px;
+    margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+}
+
+
+.navbar-wrapper .navbar {
+}
+
+    /* Remove border and change up box shadow for more contrast */
+.navbar .navbar-inner {
+    background: rgba(0,0,0,0.75);
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0;
+    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+    /* Downsize the brand/project name a bit */
+.navbar .brand {
+    padding: 14px 150px 16px; /* Increase vertical padding to match navbar links */
+
+    font-size: 40px;
+    font-weight: bold;
+    color: #f5f5f5;
+
+    background: rgba(255,255,255,0.2);
+    text-shadow: 20 1px 0 rgba(0,0,0,.2);
+}
+
+    /* Navbar links: increase padding for taller navbar */
+.navbar .nav > li > a {
+    padding: 15px 20px;
+    color:white;
+}
+
+    /* Offset the responsive button for proper vertical alignment */
+.navbar .btn-navbar {
+    margin-top: 10px;
+
+}
+
+    /* Jumbotrons
+      -------------------------------------------------- */
+.jumbotron {
+    position: relative;
+}
+.jumbotron h1 {
+    margin-bottom: 9px;
+    font-size: 81px;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+.jumbotron p {
+    margin-bottom: 18px;
+    font-weight: 300;
+}
+.jumbotron .btn-large {
+    font-size: 20px;
+    font-weight: normal;
+    padding: 14px 24px;
+    margin-right: 10px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+    /* Masthead (docs home) */
+.masthead {
+    background-image:url('boilerplate/img/background.jpg');
+    background-repeat:no-repeat;
+    background-size: cover;
+    padding-top: 36px;
+    padding-bottom: 36px;
+    margin-bottom: 0px;
+    height: 600px;
+
+    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    box-shadow: 0 5px 10px rgba(0,0,0,.8);
+}
+.masthead h1,
+.masthead p {
+    text-align: left;
+}
+.masthead h1 {
+    margin-bottom: 18px;
+    font-size: 50px;
+    color:white;
+    text-shadow: black 0.02em 0.02em 0.02em;
+}
+.masthead p {
+    font-size: 20px;
+    color:white;
+    line-height: 36px;
+}
+
+
+    /* Specific jumbotrons
+    ------------------------- */
+    /* supporting docs pages */
+.subhead {
+    padding-bottom: 0;
+    margin-bottom: 9px;
+}
+.subhead h1 {
+    font-size: 54px;
+}
+
+.shadow {
+    -moz-box-shadow: 3px 3px 4px #000;
+    -webkit-box-shadow: 3px 3px 4px #000;
+    box-shadow: 3px 3px 4px #000;
+}
+
+    /* Speech bubble*/
+.bubble
+{
+    color:grey;
+    position: relative;
+    width: 340px;
+    height: 120px;
+    padding: 10px;
+    background: #FFFFFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.bubble p{
+    color:black;
+}
+
+.bubble:after
+{
+    content: "";
+    position: absolute;
+    bottom: -21px;
+    left: 54px;
+    border-style: solid;
+    border-width: 21px 19px 0;
+    border-color: #FFFFFF transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
+
+.crew
+{
+    padding: 50px;
+    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    box-shadow: 0 -2px 10px rgba(0,0,0,.8);
+    background-image:url('boilerplate/img/background_crew.jpg');
+    background-repeat:no-repeat;
+    background-size: cover;
+}
+.about
+{
+    padding: 50px;
+    padding-bottom: 0;
+    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    box-shadow: 0 -2px 10px rgba(0,0,0,.8);
+    background-image:url('boilerplate/img/background_about.jpg');
+    background-repeat:no-repeat;
+    background-size: cover;
+}
+
+.lead
+{
+    margin-left: 100px;
+    margin-right: 50px;
+}
+.featurette-heading{
+    color: #ffffff;
+    font-size: 40px;
+}
+</style>
+
 </head>
 <body>
-    <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
-           chromium.org/developers/how-tos/chrome-frame-getting-started -->
-    <!--[if lt IE 8]>
-    	<p class=chromeframe>{% trans %}Your browser is <em>ancient!</em>{% endtrans %} 
-    	{% trans %}<a href="http://browsehappy.com/">Upgrade to a different browser</a>
-    	or <a href="http://www.google.com/chromeframe/?redirect=true">
-    	install Google Chrome Frame</a> to experience this site.{% endtrans %}</p>
-    <![endif]-->
 
-    <div id="page">
-        {% block navbar %}
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-chevron-down icon"></span>
-                </button>
-                <a class="brand" href="/">Arky</a>
-                <div class="nav-collapse">
-                    <ul class="nav pull-right">
-                        <li>
-                            <ul class="nav nav-pills">
-                              <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    Interesting People<b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="">Computing</a></li>
-                                    <li><a href="">Business</a></li>
-                                    <li><a href="">Gamers</a></li>
-                                    <li><a href="">Chefs</a></li>
-                                    <li><a href="">Science</a></li>
-                                </ul>
-                              </li>
+<div id="page">
+    {% block navbar %}
+        <div class="navbar-wrapper" id="top">
+            <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->
+            <div class="container">
+                <div class="navbar navbar-fixed-top navbar-inverse">
+                    <div class="navbar-inner">
+                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="brand" href="http://twitter.github.io/bootstrap/examples/starter-template.html#">Arky</a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right">
+                                <li><a href="#whatIsArky" id="whatisarkybutton">What Is Arky?</a></li>
+                                <li><a href="http://twitter.github.io/bootstrap/examples/starter-template.html#contact">Contact</a></li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Interesting People<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="#">By Workfield</a></li>
+                                        <li><a tabindex="-1" href="#">By Region</a></li>
+                                        <li><a tabindex="-1" href="#">By Age</a></li>
+                                        <!--<li class="divider"></li>-->
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#signIn" role="button" data-toggle="modal">Sign In</a>
+                                </li>
+                                <li>
+                                    <a href="#signUp" role="button" data-toggle="modal">Sign Up</a>
+                                </li>
                             </ul>
-                        </li>
-                        <li><a href="">About Us</a></li>
-                        <li><a href="">Contact</a></li>
-                        {% if user_id %}
-                        <li class="divider-vertical"></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ uri_for("edit-profile") }}">{% trans %}Edit Profile{% endtrans %}</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{{ logout_url }}">{% trans %}Logout{% endtrans %}</a></li>
-                            </ul>
-                        </li>
-                        {% elif path != "/" and path != "/login/" %}
-                        <li class="divider-vertical"></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Login{% endtrans %} <b class="caret"></b></a>
-                            <div class="dropdown-menu well">
-                                <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="auth-at-dropdown">
-                                    <fieldset>
-                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                                        <div class="control-group">
-                                            <label class="control-label" for="l_username">{% trans %}Username or Email{% endtrans %}:</label>
-                                            <div class="controls">
-                                                <input class="input-xlarge focused required" id="l_username" name="username" type="text" value="">
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="l_password">{% trans %}Password{% endtrans %}:</label>
-                                            <div class="controls">
-                                                <input class="input-xlarge focused required" id="l_password" name="password" type="password" value="">
-                                            </div>
-                                        </div>
-                                        <div class="control-group row-fluid">
-                                            <label class="checkbox span7">
-                                                <input type="checkbox" name="remember_me" id="remember_me" value="on">
-                                                {% trans %}Remember me?{% endtrans %}
-                                            </label>
-                                            <div class="span5">
-                                                <button type="submit" class="btn btn-primary btn-small btn-login">{% trans %}Login{% endtrans %}</button>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
-                                        </div>
-                                        {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div><!-- /.nav-collapse -->
-            </div><!-- /navbar-inner -->
-        </div><!-- /navbar -->
+                        </div><!--/.nav-collapse -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    <div id="content">
+        {% block boat %}
         {% endblock %}
 
-        <div id="content" class="container xled">
-            {% block header %}
+        {% block crew %}
+        {% endblock %}
+
+        {% block about %}
+        {% endblock %}
+
+        {% block hiddenContent %}
+        {% endblock %}
+
+
+        {% block header %}
             <header class="navbar" id="overview">
                 {% block header_title_lead %}
-                <h1>{% block header_title %}{{ app_name }}{% endblock %}</h1>
-                <p class="lead">
-                    {{ Message}}
-		            {% trans %}Congratulations on your Google App Engine Boilerplate powered page.{% endtrans %}
-		            <br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">
-		            {% trans %}Learn why this Boilerplate Rocks{% endtrans %}</a> {% trans %}or just{% endtrans %} 
-		            <a href="http://github.com/coto/gae-boilerplate/" target="_blank">{% trans %}download the Source Code{% endtrans %}</a> 
-		            {% trans %}to help you to create your application.{% endtrans %}
-				</p>
                 {% endblock %}
                 {% block subnavbar %}
-                <div class="subnav">
-                    <ul>
-                        <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
-                        {% if not user_id %}
-                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{% trans %}Sign Up{% endtrans %}</a></li>
-                        <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+                    <div class="subnav">
+                        <ul>
+                            <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
+                            {% if not user_id %}
+                                <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{% trans %}Sign Up{% endtrans %}</a></li>
+                                <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 {% endblock %}
             </header>
-            {% endblock %}
+        {% endblock %}
 
         {% if messages|safe %}
-        	{% for message in messages %}
-            <p class="alert alert-{{ message[1]|safe }}">
-                <a class="close" data-dismiss="alert">×</a>
-                {{ message[0]|safe }}
-            </p>
+            {% for message in messages %}
+                <p class="alert alert-{{ message[1]|safe }}">
+                    <a class="close" data-dismiss="alert">×</a>
+                    {{ message[0]|safe }}
+                </p>
             {% endfor %}
         {% endif %}
-            {% block content %}{% endblock %}
 
-            {% block footer %}
-            <footer>
-                Arky is currently in alpha phase
-            </footer>
-            {% endblock %}
-        </div><!-- /content -->
-    </div><!-- /page -->
+    </div><!-- /content -->
+</div><!-- /page -->
 
-    <!-- JavaScript at the bottom for fast page loading -->
-    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/boilerplate/js/libs/jquery.min.js"><\/script>')</script>
-    <script src="/boilerplate/js/libs/bootstrap.min.js"></script>
+<!-- JavaScript at the bottom for fast page loading -->
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/boilerplate/js/libs/jquery.min.js"><\/script>')</script>
+<script src="/boilerplate/js/libs/bootstrap.min.js"></script>
 
-    <!-- scripts concatenated and minified via build script -->
-    <script src="/boilerplate/js/plugins.js"></script>
-    <script src="/boilerplate/js/script.js"></script>
-    <script src="/js/script.js"></script>
-    {% if locale_language_id != "en" %}
-        {% if locale_iso.language == "pt" and locale_iso.territory == "BR" %}
-    <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_iso.language }}_{{ locale_iso.territory }}.js"></script>
-        {% else %}
-    <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_language_id }}.js"></script>
-        {% endif %}
+<!-- scripts concatenated and minified via build script -->
+<script src="/boilerplate/js/plugins.js"></script>
+<script src="/boilerplate/js/script.js"></script>
+<script src="/js/script.js"></script>
+{% if locale_language_id != "en" %}
+    {% if locale_iso.language == "pt" and locale_iso.territory == "BR" %}
+        <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_iso.language }}_{{ locale_iso.territory }}.js"></script>
+    {% else %}
+        <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_language_id }}.js"></script>
     {% endif %}
-    {% block mediaJS %}{% endblock %}
-    <!-- end scripts -->
+{% endif %}
+{% block mediaJS %}{% endblock %}
+<!-- end scripts -->
 </body>
 </html>

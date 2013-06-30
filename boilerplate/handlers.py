@@ -1619,7 +1619,7 @@ class RandomRequestHandler(RegisterBaseHandler):
             if user_info is not None and user_info.activated == True:
                 break
 
-        user_info = models.User.get_by_id_no(randNo)
+        user_info = models.User.get_by_id_no(1)
         age = self.ageCal(user_info.dob)
         country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
 
@@ -1656,6 +1656,141 @@ class RandomScheduledRequestHandler(RegisterBaseHandler):
 
         params = {}
         return self.render_template('errors/forbidden_access.html', **params)
+
+
+    def post(self):
+        """ Get fields from POST dict """
+
+        if not self.form.validate():
+            return self.get()
+        username = self.form.username.data.lower()
+        name = self.form.name.data.strip()
+        last_name = self.form.last_name.data.strip()
+        email = self.form.email.data.lower()
+        password = self.form.password.data.strip()
+        country = self.form.country.data
+        occupation = self.form.occupation.data
+        contribution = self.form.contribution.data
+        pm = self.form.pm.data
+        dob = self.form.dob.data
+        id_no = models.User.id_gen() + 1
+        # Password to SHA512
+        password = utils.hashing(password, self.app.config.get('salt'))
+        avatar = self.request.get('avatar')
+
+        # Passing password_raw=password so password will be hashed
+        # Returns a tuple, where first value is BOOL.
+        # If True ok, If False no new user is created
+        unique_properties = ['username', 'email']
+        auth_id = "own:%s" % username
+        user = self.auth.store.user_model.create_user(
+            auth_id, unique_properties, password_raw=password,
+            username=username, name=name, last_name=last_name, email=email,
+            ip=self.request.remote_addr, country=country, occupation=occupation,
+            contribution=contribution, pm=pm, dob=dob, id_no=id_no
+        )
+
+        if not user[0]: #user is a tuple
+            if "username" in str(user[1]):
+                message = _('Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username) )
+            elif "email" in str(user[1]):
+                message = _('Sorry, The email %s is already registered.' % '<strong>{0:>s}</strong>'.format(email) )
+            else:
+                message = _('Sorry, The user is already registered.')
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
+        else:
+            # User registered successfully
+            # But if the user registered using the form, the user has to check their email to activate the account ???
+            try:
+
+                time.sleep(0.5)
+                user_info = models.User.get_by_email(email)
+                try:
+                    user_info.avatar = db.Blob(avatar)
+                    user_info.put()
+                except:
+                    pass
+
+                if (user_info.activated == False):
+                    # send email
+                    subject =  _("%s Account Verification" % self.app.config.get('app_name'))
+                    confirmation_url = self.uri_for("account-activation",
+                        user_id=user_info.get_id(),
+                        token = models.User.create_auth_token(user_info.get_id()),
+                        _full = True)
+
+                    # load email's template
+                    template_val = {
+                        "app_name": self.app.config.get('app_name'),
+                        "username": username,
+                        "confirmation_url": confirmation_url,
+                        "support_url": self.uri_for("contact", _full=True)
+                    }
+                    body_path = "emails/account_activation.txt"
+                    body = self.jinja2.render_template(body_path, **template_val)
+
+                    email_url = self.uri_for('taskqueue-send-email')
+                    taskqueue.add(url = email_url, params={
+                        'to': str(email),
+                        'subject' : subject,
+                        'body' : body,
+                        })
+
+                    message = _('You were successfully registered. '
+                                'Please check your email to activate your account. ' )
+                    self.add_message(message, 'success')
+                    return self.redirect_to('home')
+
+                # If the user didn't register using registration form ???
+                db_user = self.auth.get_user_by_password(user[1].auth_ids[0], password)
+                # Check twitter association in session
+                twitter_helper = twitter.TwitterAuth(self)
+                twitter_association_data = twitter_helper.get_association_data()
+                if twitter_association_data is not None:
+                    if models.SocialUser.check_unique(user[1].key, 'twitter', str(twitter_association_data['id'])):
+                        social_user = models.SocialUser(
+                            user = user[1].key,
+                            provider = 'twitter',
+                            uid = str(twitter_association_data['id']),
+                            extra_data = twitter_association_data
+                        )
+                        social_user.put()
+
+                #check facebook association
+                fb_data = json.loads(self.session['facebook'])
+
+                if fb_data is not None:
+                    if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
+                        social_user = models.SocialUser(
+                            user = user.key,
+                            provider = 'facebook',
+                            uid = str(fb_data['id']),
+                            extra_data = fb_data
+                        )
+                        social_user.put()
+                #check linkedin association
+                li_data = json.loads(self.session['linkedin'])
+                if li_data is not None:
+                    if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
+                        social_user = models.SocialUser(
+                            user = user.key,
+                            provider = 'linkedin',
+                            uid = str(li_data['id']),
+                            extra_data = li_data
+                        )
+                        social_user.put()
+
+
+                message = _('Welcome %s, you are now logged in.' % '<strong>{0:>s}</strong>'.format(username) )
+                self.add_message(message, 'success')
+                return self.redirect_to('home')
+            except (AttributeError, KeyError), e:
+                logging.error('Unexpected error creating the user %s: %s' % (username, e ))
+                message = _('Unexpected error creating the user %s' % username )
+                #message = _('Unexpected error creating the user %s' % username )
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
 
 class GetImage(RegisterBaseHandler):
     def get(self):

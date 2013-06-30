@@ -2,114 +2,263 @@
 
 {% block header_title_lead %}{% endblock %}
 
-{% block content %}
+{% block boat %}
+    <div class="row"><!--FIRST ROW-->
+        <div class="jumbotron masthead">
+            <div class="container">
+                <div class="row-fluid" style="padding-top:100px;">
+                    <div class="span7">
+                        <div class="row">
+                            <div>
+                                <img src="boilerplate/img/boat.png">
+                            </div>
+                            <div class="span12 offset1">
+                                <div class="span2" >
+                                    <a href="#" class="tip crew12button" data-toggle="tooltip" data-placement="bottom" title="Name of crew member">
+                                        <img class="img-circle" src="boilerplate/img/test.jpg" width="90">
+                                    </a>
+                                </div>
+                                <div class="span2">
+                                    <a href="#" class="tip crew12button" data-toggle="tooltip" data-placement="bottom" title="Name of crew member">
+                                        <img class="img-circle" src="boilerplate/img/test.jpg" width="90">
+                                    </a>
+                                </div>
+                                <div class="span2">
+                                    <a href="#" class="tip crew34button" data-toggle="tooltip" data-placement="bottom" title="Name of crew member">
+                                        <img class="img-circle" src="boilerplate/img/test.jpg" width="90">
+                                    </a>
+                                </div>
+                                <div class="span2">
+                                    <a href="#" class="tip crew34button" data-toggle="tooltip" data-placement="bottom" title="Name of crew member">
+                                        <img class="img-circle" src="boilerplate/img/test.jpg" width="90">
+                                    </a>
+                                </div>
 
-    {% if user_id %}
-    <div class="hero-unit home_bp">
-        <h1>
-            Google App Engine Boilerplate
-        </h1>
-        <p>
-            {% trans %}Congratulations on your Google App Engine Boilerplate powered page.{% endtrans %}
-            <br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.md" target="_blank">
-            {% trans %}Learn why this Boilerplate Rocks{% endtrans %}</a> {% trans %}or just{% endtrans %} 
-            <a href="http://github.com/coto/gae-boilerplate/" target="_blank">{% trans %}download the Source Code{% endtrans %}</a> 
-            {% trans %}to help you to create your application.{% endtrans %}
-        </p>
-    </div>
-    {% else %}
-    <div class="row">
-        <div class="span9">
-            <div class="home_bp">
-                <h1>
-                    {% if imageD is  none %}
-
-                    {% else %}
-                        {{ imageD }}<br>
-                    {% endif %}
-                    Name: {{ name }}<br>
-                    Age: {{ age }} Years Old<br>
-                    Country: {{ country }}<br>
-                    Occupation: {{ occupation }}<br>
-                    Shoutout to the world:  {{ pm }}<br>
-                    Contribution to society: {{ contribution }}
-                </h1>
-                <p>
-                    {% trans %}Random powered page.{% endtrans %}
-                    <br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.md" target="_blank">
-                    {% trans %}Learn why this Boilerplate Rocks{% endtrans %}</a> {% trans %}or just{% endtrans %} 
-                    <a href="http://github.com/coto/gae-boilerplate/" target="_blank">{% trans %}download the Source Code{% endtrans %}</a> 
-                    {% trans %}to help you to create your application.{% endtrans %}
-                </p>
-            </div>
-        </div>
-        <div class="span3 auth-at-home">
-            <form id="form_login_user" action="{{ uri_for("login") }}" method="post">
-                <fieldset class="well">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                    <div class="control-group">
-                        <label class="controls">
-                            <input class="focused required" name="username" id="l_username" type="text" placeholder="{% trans %}Username or Email{% endtrans %}">
-                        </label>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls row-fluid">
-                            <label class="span8">
-                                <input class="focused required" name="password" id="l_password" type="password" placeholder="{% trans %}Password{% endtrans %}">
-                            </label>
-                            <label class="span4">
-                                <button type="submit" class="btn btn-primary btn-login">{% trans %}Login{% endtrans %}</button>
-                            </label>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <label class="checkbox">
-                            <input type="checkbox" name="remember_me" id="remember_me" value="on">
-                            {% trans %}Remember me?{% endtrans %} <span class="separator"></span>
-                            <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
-                        </label>
-                    </div>
-                    {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
-                </fieldset>
-            </form>
+                    <div class="span5">
+                        <h1>Captain of the Day</h1>
+                        <h3 class="bubble">{{ pm }}</h3><br>
+                        <div class="span3">
+                            {% if imageD is  none %}
 
-            <h3>{% trans %}Sign Up{% endtrans %}</h3>
-            <form id="form_register" action="{{ uri_for("register") }}" method="post">
-                <fieldset class="well">
+                            {% else %}
+                                {{ imageD }}<br>
+                            {% endif %}
+                        </div>
+
+                        <div class="span7">
+
+                            <h3>{{ name }}</h3>
+                            <dl style="color:white;">
+                                <dt>Contribution to society</dt>
+                                <dd>{{ contribution }}</dd>
+                                <dt>Age</dt>
+                                <dd>{{ age }} Years Old</dd>
+                                <dt>Living in</dt>
+                                <dd>{{ country }}</dd>
+                                <dt>Working as</dt>
+                                <dd>{{ occupation }}</dd>
+                            </dl>
+
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /container -->
+        </div>
+    </div><!--END OF FIRST ROW-->
+{% endblock %}
+
+
+{% block crew %}
+    <div class="row"><!--START OF ROW 2-->
+        <div class="crew">
+            <div class="container marketing">
+
+                <div class="row">
+                    <h1 align="center">Crew Members</h1>
+                </div>
+                <div class="row" id="crew12">
+                    <div class="span6" align="center">
+                        <img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAYAAACuwEE+AAAErUlEQVR4Xu3YwStscRjG8d8QQnZEFkqyY6NE/n0rlOxkS1ZqrCiFe/udOtPcue6YJ889Gc93Vtz7eo/3eT/9zjl6/X7/V+FDAhMm0APMhElR1iQAGCBICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpgakH8/7+Xs7Ozsrz83M5OTkpi4uLfwRwd3dXbm5uyvr6etnf32/+r9/vl6urq1J/tn729vbKxsbGRMF1fb2JfqkOi6YazOvrazk9PS1vb2+l1+v9BaZd7tPT0wBM+zNLS0vl6OioXF5eNtjq13Nzc2Oj7/p6HTqY+FJTC2Z4eXXaj8BcX1+Xh4eHUmvX1taaE6Y9cba3t8vOzs7g+3rKzM/PNyfP8vJyA6j+/P39fXMCra6uDnC6rjfpqTbxNjsonGowFxcX5eDgYHBKDN+S2tvO1tZWub29/RRMC6ieOI+Pj+X4+Licn5+X9iSq6P7H9TrYsfUSUwumTeGjZ4r232ZmZsru7m5zarQnTHtqjJ4w7feT3naGn5m+cj3rNjto9iPBDN9K2tvMZ7ekFkzNvJ4y9YQaflAeB/Sr1+tgz7ZL/DgwCwsLzVtTfdAd/aysrJTNzc3mremjZ5j6TNHeyuoD8MvLy19vUKMn2levZ9tkR41+HJjR1+oWQHvCjHtLmp2dbbDVt67Dw8PmpKlfD79BffZarVzvs7eyjgxIl4kDM+7vMP96vhm+Nalgxl1P2tQ3KZ56MN8kx5hfAzAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gz6G1HzSbXtC7t7AAAAAElFTkSuQmCC">
+                        <h2>Heading</h2>
+                        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+                        <p><a class="btn" href="http://twitter.github.io/bootstrap/examples/carousel.html#">View details »</a></p>
+                    </div>
+                    <div class="span6" align="center">
+                        <img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAYAAACuwEE+AAAErUlEQVR4Xu3YwStscRjG8d8QQnZEFkqyY6NE/n0rlOxkS1ZqrCiFe/udOtPcue6YJ889Gc93Vtz7eo/3eT/9zjl6/X7/V+FDAhMm0APMhElR1iQAGCBICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpgakH8/7+Xs7Ozsrz83M5OTkpi4uLfwRwd3dXbm5uyvr6etnf32/+r9/vl6urq1J/tn729vbKxsbGRMF1fb2JfqkOi6YazOvrazk9PS1vb2+l1+v9BaZd7tPT0wBM+zNLS0vl6OioXF5eNtjq13Nzc2Oj7/p6HTqY+FJTC2Z4eXXaj8BcX1+Xh4eHUmvX1taaE6Y9cba3t8vOzs7g+3rKzM/PNyfP8vJyA6j+/P39fXMCra6uDnC6rjfpqTbxNjsonGowFxcX5eDgYHBKDN+S2tvO1tZWub29/RRMC6ieOI+Pj+X4+Licn5+X9iSq6P7H9TrYsfUSUwumTeGjZ4r232ZmZsru7m5zarQnTHtqjJ4w7feT3naGn5m+cj3rNjto9iPBDN9K2tvMZ7ekFkzNvJ4y9YQaflAeB/Sr1+tgz7ZL/DgwCwsLzVtTfdAd/aysrJTNzc3mremjZ5j6TNHeyuoD8MvLy19vUKMn2levZ9tkR41+HJjR1+oWQHvCjHtLmp2dbbDVt67Dw8PmpKlfD79BffZarVzvs7eyjgxIl4kDM+7vMP96vhm+Nalgxl1P2tQ3KZ56MN8kx5hfAzAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gz6G1HzSbXtC7t7AAAAAElFTkSuQmCC">
+                        <h2>Heading</h2>
+                        <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                        <p><a class="btn" href="http://twitter.github.io/bootstrap/examples/carousel.html#">View details »</a></p>
+                    </div>
+                </div>
+                <div class="row" id="crew34">
+                    <div class="span6" align="center">
+                        <img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAYAAACuwEE+AAAErUlEQVR4Xu3YwStscRjG8d8QQnZEFkqyY6NE/n0rlOxkS1ZqrCiFe/udOtPcue6YJ889Gc93Vtz7eo/3eT/9zjl6/X7/V+FDAhMm0APMhElR1iQAGCBICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpgakH8/7+Xs7Ozsrz83M5OTkpi4uLfwRwd3dXbm5uyvr6etnf32/+r9/vl6urq1J/tn729vbKxsbGRMF1fb2JfqkOi6YazOvrazk9PS1vb2+l1+v9BaZd7tPT0wBM+zNLS0vl6OioXF5eNtjq13Nzc2Oj7/p6HTqY+FJTC2Z4eXXaj8BcX1+Xh4eHUmvX1taaE6Y9cba3t8vOzs7g+3rKzM/PNyfP8vJyA6j+/P39fXMCra6uDnC6rjfpqTbxNjsonGowFxcX5eDgYHBKDN+S2tvO1tZWub29/RRMC6ieOI+Pj+X4+Licn5+X9iSq6P7H9TrYsfUSUwumTeGjZ4r232ZmZsru7m5zarQnTHtqjJ4w7feT3naGn5m+cj3rNjto9iPBDN9K2tvMZ7ekFkzNvJ4y9YQaflAeB/Sr1+tgz7ZL/DgwCwsLzVtTfdAd/aysrJTNzc3mremjZ5j6TNHeyuoD8MvLy19vUKMn2levZ9tkR41+HJjR1+oWQHvCjHtLmp2dbbDVt67Dw8PmpKlfD79BffZarVzvs7eyjgxIl4kDM+7vMP96vhm+Nalgxl1P2tQ3KZ56MN8kx5hfAzAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gz6G1HzSbXtC7t7AAAAAElFTkSuQmCC">
+                        <h2>Heading</h2>
+                        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                        <p><a class="btn" href="http://twitter.github.io/bootstrap/examples/carousel.html#">View details »</a></p>
+                    </div>
+                    <div class="span6" align="center">
+                        <img class="img-circle" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAYAAACuwEE+AAAErUlEQVR4Xu3YwStscRjG8d8QQnZEFkqyY6NE/n0rlOxkS1ZqrCiFe/udOtPcue6YJ889Gc93Vtz7eo/3eT/9zjl6/X7/V+FDAhMm0APMhElR1iQAGCBICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpAcBIcVEMGAxICQBGiotiwGBASgAwUlwUAwYDUgKAkeKiGDAYkBIAjBQXxYDBgJQAYKS4KAYMBqQEACPFRTFgMCAlABgpLooBgwEpgakH8/7+Xs7Ozsrz83M5OTkpi4uLfwRwd3dXbm5uyvr6etnf32/+r9/vl6urq1J/tn729vbKxsbGRMF1fb2JfqkOi6YazOvrazk9PS1vb2+l1+v9BaZd7tPT0wBM+zNLS0vl6OioXF5eNtjq13Nzc2Oj7/p6HTqY+FJTC2Z4eXXaj8BcX1+Xh4eHUmvX1taaE6Y9cba3t8vOzs7g+3rKzM/PNyfP8vJyA6j+/P39fXMCra6uDnC6rjfpqTbxNjsonGowFxcX5eDgYHBKDN+S2tvO1tZWub29/RRMC6ieOI+Pj+X4+Licn5+X9iSq6P7H9TrYsfUSUwumTeGjZ4r232ZmZsru7m5zarQnTHtqjJ4w7feT3naGn5m+cj3rNjto9iPBDN9K2tvMZ7ekFkzNvJ4y9YQaflAeB/Sr1+tgz7ZL/DgwCwsLzVtTfdAd/aysrJTNzc3mremjZ5j6TNHeyuoD8MvLy19vUKMn2levZ9tkR41+HJjR1+oWQHvCjHtLmp2dbbDVt67Dw8PmpKlfD79BffZarVzvs7eyjgxIl4kDM+7vMP96vhm+Nalgxl1P2tQ3KZ56MN8kx5hfAzAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gwKGE+OMV0AE7Nqz6CA8eQY0wUwMav2DAoYT44xXQATs2rPoIDx5BjTBTAxq/YMChhPjjFdABOzas+ggPHkGNMFMDGr9gz6G1HzSbXtC7t7AAAAAElFTkSuQmCC">
+                        <h2>Heading</h2>
+                        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                        <p><a class="btn" href="http://twitter.github.io/bootstrap/examples/carousel.html#">View details »</a></p>
+                    </div>
+                </div>
+            </div><!-- /.container -->
+        </div><!-- /end of row 2 -->
+    </div>
+
+{% endblock %}
+
+
+{% block about %}
+    <div class="row about" id="whatIsArky"><!--start of 3rd row-->
+        <!-- START THE FEATURETTES -->
+        <div class="container">
+            <div class="row">
+                <h2 class="featurette-heading" align="center">What is Arky? <span class="muted">To recognize contributions</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <hr>
+
+            <div class="row">
+                <h2 class="featurette-heading" align="center">So how it works? <span class="muted">See for yourself.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+
+            <hr>
+            <div class="row">
+                <h2 class="featurette-heading" align="center">And lastly, invite everyone! <span class="muted">Spread the words.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+
+        </div>
+        <!-- /END THE FEATURETTES -->
+
+        <!-- FOOTER -->
+
+        <footer>
+            <p class="pull-right"><a href="#" id="topbutton">Back to top</a></p>
+            <p>© 2013 Arky. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+        </footer>
+    </div><!--END OF 3rd ROW-->
+
+{% endblock %}
+
+{% block hiddenContent %}
+    <div id="signUp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Welcome onboard!</h3>
+        </div>
+        <div class="modal-body" id="registrationFrame">
+            <form id="form_register" action="{{ url|safe }}" method="post" class="well form-horizontal" enctype="multipart/form-data">
+                <fieldset>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                    <div class="control-group">
-                        <label class="controls">
-                            <input class="focused required" name="username" id="username" type="text" placeholder="{% trans %}Username{% endtrans %}">
-                        </label>
+                    {{ macros.field(form.username, label=_("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
+                    {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
+                    {{ macros.field(form.last_name, label=_("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
+                    {{ macros.field(form.email, label=_("Email"), placeholder=_("Enter your")+" "+_("Email"), class="input-xlarge focused required email", type="email") }}
+                    {{ macros.field(form.password, label=_("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
+                    {% if not is_mobile %}
+                        {{ macros.field(form.c_password, label=_("Confirm Password"), placeholder=_("Confirm Password"), class="input-xlarge focused required", type="password") }}
+                    {% endif %}
+                    {{ macros.field(form.country, label=_("Country")) }}
+                    {{ macros.field(form.occupation, label=_("Occupation"), placeholder=_("Enter your")+" "+_("Occupation"), class="input-xlarge focused") }}
+                    {{ macros.field(form.contribution, label=_("Contribution"), class="input-xlarge required", cols="40", rows="8") }}
+                    {{ macros.field(form.pm, label=_("Personal Message"), class="input-xlarge required", cols="40", rows="4") }}
+                    {{ macros.field(form.dob, label=_("Date of birth"), placeholder=_("YYYY-MM-DD")) }}
+                    <label class="control-label" for="avatar">Upload a avatar</label>
+                    <div class="controls">
+                        <input type="file" name="avatar" />
                     </div>
-                    <div class="control-group">
-                        <label class="controls">
-                            <input class="focused required email" name="email" id="email" type="email" placeholder="{% trans %}Email{% endtrans %}">
-                            <input type="hidden" name="country" value="">
-                        </label>
-                    </div>
-                    <div class="control-group">
-                        <label class="controls">
-                            <input class="focused required" name="password" id="password" type="password" placeholder="{% trans %}Password{% endtrans %}">
-                        </label>
-                    </div>
-                    <div class="control-group">
-                        <label class="controls">
-                            <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{% trans %}Confirm Password{% endtrans %}">
-                        </label>
-                    </div>
-                    <div class="control-group">
+                    <div class="form-actions">
                         <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>
                     </div>
                 </fieldset>
             </form>
         </div>
-    </div><!-- /row -->
-    {% endif %}
+    </div>
 
+    <div id="signIn" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Welcome onboard!</h3>
+        </div>
+        <div class="modal-body">
+
+            <form id="form_login_user" action="{{ url|safe }}" method="post" class="well form-vertical auth-at-loginpage">
+                <fieldset>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    {{ macros.field(form.username, label=_("Username or Email"), placeholder=_("Enter your")+" "+_("Username or Email"), class="input-xlarge focused required") }}
+                    {{ macros.field(form.password, label=_("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary btn-login">{% trans %}Login{% endtrans %}</button>
+                            <label class="remember">
+                                <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                                {% trans %}Remember me?{% endtrans %}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
+
 {% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_register").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                rules: {
+                    password: 'required',
+                    c_password: {
+                        required: true,
+                        equalTo: '#password'
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+
+            $("#password").passStrength({
+                shortPassText: '{% trans %}Short Password{% endtrans %}',
+                badPassText: '{% trans %}Insecure Password{% endtrans %}',
+                goodPassText: '{% trans %}Good Password{% endtrans %}',
+                strongPassText: '{% trans %}Secure Password{% endtrans %}'
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_login_user").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+        });
+    </script>
+
+
     <script type="text/javascript">
         $().ready(function() {
             $("#form_login_user").validate({
@@ -138,7 +287,7 @@
                     error.addClass("help-inline").appendTo( element.parent() );
                 }
             });
-            
+
             $("#password").passStrength({
                 shortPassText: '{% trans %}Short Password{% endtrans %}',
                 badPassText: '{% trans %}Insecure Password{% endtrans %}',
