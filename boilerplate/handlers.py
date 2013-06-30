@@ -30,6 +30,7 @@ from linkedin import linkedin
 from datetime import date
 from google.appengine.ext import ndb, db
 from PIL import Image
+from sets import Set
 
 # local application/library specific imports
 import pycountry
@@ -1569,28 +1570,63 @@ class HomeRequestHandler(RegisterBaseHandler):
         """ Returns a simple HTML form for home """
         cap = models.RandomDaily.get_by_role('captain')
         cap_info = models.User.get_by_id_no(cap.id_No)
-        capAge = self.ageCal(cap_info.dob)
-
-
-        """ country code convertor """
-        country = pycountry.countries.get(alpha2=cap_info.country)
-
-        imageDisplay= None
+        cap_Age = self.ageCal(cap_info.dob)
+        cap_country = pycountry.countries.get(alpha2=cap_info.country)
+        cap_imageDisplay= None
         if cap_info.avatar is not None:
-            imageDisplay = '<img src="/ava?id=' + str(cap_info.id_no) + '">'
+            cap_imageDisplay = '<img src="/ava?id=' + str(cap_info.id_no) + '">'
+
+
+        crew1 = models.RandomDaily.get_by_role('crew1')
+        crew1_info = models.User.get_by_id_no(crew1.id_No)
+        cre1_Age = self.ageCal(crew1_info.dob)
+        crew1_country = pycountry.countries.get(alpha2=crew1_info.country)
+        crew1_imageDisplay= None
+        if crew1_info.avatar is not None:
+            crew1_imageDisplay = '<img src="/ava?id=' + str(crew1_info.id_no) + '">'
+
+        crew2 = models.RandomDaily.get_by_role('crew2')
+        crew2_info = models.User.get_by_id_no(crew2.id_No)
+        cre2_Age = self.ageCal(crew2_info.dob)
+        crew2_country = pycountry.countries.get(alpha2=crew2_info.country)
+        crew2_imageDisplay= None
+        if crew2_info.avatar is not None:
+            crew2_imageDisplay = '<img src="/ava?id=' + str(crew2_info.id_no) + '">'
+
+        crew3 = models.RandomDaily.get_by_role('crew3')
+        crew3_info = models.User.get_by_id_no(crew3.id_No)
+        cre3_Age = self.ageCal(crew3_info.dob)
+        crew3_country = pycountry.countries.get(alpha2=crew3_info.country)
+        crew3_imageDisplay= None
+        if crew3_info.avatar is not None:
+            crew3_imageDisplay = '<img src="/ava?id=' + str(crew3_info.id_no) + '">'
+
+        crew4 = models.RandomDaily.get_by_role('crew4')
+        crew4_info = models.User.get_by_id_no(crew4.id_No)
+        cre4_Age = self.ageCal(crew4_info.dob)
+        crew4_country = pycountry.countries.get(alpha2=crew4_info.country)
+        crew4_imageDisplay= None
+        if crew4_info.avatar is not None:
+            crew4_imageDisplay = '<img src="/ava?id=' + str(crew4_info.id_no) + '">'
 
         template_values = {
-        'name': cap_info.name,
-        'country': country.name,
-        'pm': cap_info.pm,
-        'occupation': cap_info.occupation,
-        'age': capAge,
-        'contribution': cap_info.contribution,
-        'imageD': imageDisplay
+        'name': cap_info.name, 'country': cap_country.name, 'pm': cap_info.pm, 'occupation': cap_info.occupation,
+        'age': cap_Age, 'contribution': cap_info.contribution, 'imageD': cap_imageDisplay,
+
+        'name1': crew1_info.name, 'country1': crew1_country.name, 'pm1': crew1_info.pm, 'occupation1': crew1_info.occupation,
+        'age1': cre1_Age, 'contribution1': crew1_info.contribution, 'imageD1': crew1_imageDisplay,
+
+        'name2': crew2_info.name, 'country2': crew2_country.name, 'pm2': crew2_info.pm, 'occupation2': crew2_info.occupation,
+        'age2': cre2_Age, 'contribution2': crew2_info.contribution, 'imageD2': crew2_imageDisplay,
+
+        'name3': crew3_info.name, 'country3': crew3_country.name, 'pm3': crew3_info.pm, 'occupation3': crew3_info.occupation,
+        'age3': cre3_Age, 'contribution3': crew3_info.contribution, 'imageD3': crew3_imageDisplay,
+
+        'name4': crew4_info.name, 'country4': crew4_country.name, 'pm4': crew4_info.pm, 'occupation4': crew4_info.occupation,
+        'age4': cre4_Age, 'contribution4': crew4_info.contribution, 'imageD4': crew4_imageDisplay,
         }
+
         return self.render_template('random.html', **template_values)
-
-
 
 class RandomRequestHandler(RegisterBaseHandler):
     """
@@ -1633,26 +1669,106 @@ class RandomRequestHandler(RegisterBaseHandler):
         'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
         'id': user_info.id_no, 'imageD': imageDisplay
         }
-        return self.render_template('random.html', **template_values)
+        return self.render_template('random1.html', **template_values)
 
 class RandomScheduledRequestHandler(RegisterBaseHandler):
-    def get(self):
-        while 1==1:
+    """
+        Random number generator based on id. id upper limit is determine by a count of the number of row in datastore
+        limitation: If user is deleted, id may higher than the upper limit (determine by count)
+    """
+    @classmethod
+    def randomer(self):
+        counter = 0
+        while counter<=100: #prevent infinite loop
             randNo = random.randint(1, models.User.id_gen())
             user_info = models.User.get_by_id_no(randNo)
             if user_info is not None and user_info.activated == True:
                 break
+            counter += 1
+        return randNo
 
-        user_info = models.User.get_by_id_no(randNo)
+    """
+        check whether number is unique or not
+    """
+    @classmethod
+    def unique_checker(self, itemList):
+        number=self.randomer()
+        unique=False
+        while unique==False:
+            unique=True
+            for item in itemList:
+                if item == number:
+                    unique=False
+                    number = self.randomer()
+                    break
+        return number
 
-        if models.RandomDaily.count() == 0:
+    """
+        Pre:    Database must contain at least 5 user.
+                User id must be sequestial
+                No deletion of user
+    """
+    def get(self):
+        used_no = []
+
+        if models.RandomDaily.count() != 5:
+            number=self.randomer()
             cap = models.RandomDaily(role='captain',
-                id_No=randNo)
+                id_No=number)
             cap.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew1 = models.RandomDaily(role='crew1',
+                id_No=number)
+            crew1.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew2 = models.RandomDaily(role='crew2',
+                id_No=number)
+            crew2.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew3 = models.RandomDaily(role='crew3',
+                id_No=number)
+            crew3.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew4 = models.RandomDaily(role='crew4',
+                id_No=number)
+            crew4.put()
         else:
+            number=self.randomer()
             cap = models.RandomDaily.get_by_role('captain')
-            cap.id_No = randNo
+            cap.id_No=number
             cap.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c1 = models.RandomDaily.get_by_role('crew1')
+            c1.id_No = number
+            c1.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c2 = models.RandomDaily.get_by_role('crew2')
+            c2.id_No = number
+            c2.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c3 = models.RandomDaily.get_by_role('crew3')
+            c3.id_No = number
+            c3.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c4 = models.RandomDaily.get_by_role('crew4')
+            c4.id_No = number
+            c4.put()
 
         params = {}
         return self.render_template('errors/forbidden_access.html', **params)
