@@ -30,6 +30,7 @@ from linkedin import linkedin
 from datetime import date
 from google.appengine.ext import ndb, db
 from PIL import Image
+from sets import Set
 
 # local application/library specific imports
 import pycountry
@@ -1636,23 +1637,103 @@ class RandomRequestHandler(RegisterBaseHandler):
         return self.render_template('random.html', **template_values)
 
 class RandomScheduledRequestHandler(RegisterBaseHandler):
-    def get(self):
-        while 1==1:
+    """
+        Random number generator based on id. id upper limit is determine by a count of the number of row in datastore
+        limitation: If user is deleted, id may higher than the upper limit (determine by count)
+    """
+    @classmethod
+    def randomer(self):
+        counter = 0
+        while counter<=100: #prevent infinite loop
             randNo = random.randint(1, models.User.id_gen())
             user_info = models.User.get_by_id_no(randNo)
             if user_info is not None and user_info.activated == True:
                 break
+            counter += 1
+        return randNo
 
-        user_info = models.User.get_by_id_no(randNo)
+    """
+        check whether number is unique or not
+    """
+    @classmethod
+    def unique_checker(self, itemList):
+        number=self.randomer()
+        unique=False
+        while unique==False:
+            unique=True
+            for item in itemList:
+                if item == number:
+                    unique=False
+                    number = self.randomer()
+                    break
+        return number
 
-        if models.RandomDaily.count() == 0:
+    """
+        Pre:    Database must contain at least 5 user.
+                User id must be sequestial
+                No deletion of user
+    """
+    def get(self):
+        used_no = []
+
+        if models.RandomDaily.count() != 5:
+            number=self.randomer()
             cap = models.RandomDaily(role='captain',
-                id_No=randNo)
+                id_No=number)
             cap.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew1 = models.RandomDaily(role='crew1',
+                id_No=number)
+            crew1.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew2 = models.RandomDaily(role='crew2',
+                id_No=number)
+            crew2.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew3 = models.RandomDaily(role='crew3',
+                id_No=number)
+            crew3.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            crew4 = models.RandomDaily(role='crew4',
+                id_No=number)
+            crew4.put()
         else:
+            number=self.randomer()
             cap = models.RandomDaily.get_by_role('captain')
-            cap.id_No = randNo
+            cap.id_No=number
             cap.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c1 = models.RandomDaily.get_by_role('crew1')
+            c1.id_No = number
+            c1.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c2 = models.RandomDaily.get_by_role('crew2')
+            c2.id_No = number
+            c2.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c3 = models.RandomDaily.get_by_role('crew3')
+            c3.id_No = number
+            c3.put()
+
+            used_no.append(number)
+            number = self.unique_checker(used_no)
+            c4 = models.RandomDaily.get_by_role('crew4')
+            c4.id_No = number
+            c4.put()
 
         params = {}
         return self.render_template('errors/forbidden_access.html', **params)

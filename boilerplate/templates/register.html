@@ -22,9 +22,9 @@
             {{ macros.field(form.contribution, label=_("Contribution"), class="input-xlarge required", cols="40", rows="8") }}
             {{ macros.field(form.pm, label=_("Personal Message"), class="input-xlarge required", cols="40", rows="4") }}
             {{ macros.field(form.dob, label=_("Date of birth"), placeholder=_("YYYY-MM-DD")) }}
-            <label class="control-label" for="avatar">Upload a avatar</label>
+            <label class="control-label" for="avatar">Upload a avatar*</label>
             <div class="controls">
-                <input type="file" name="avatar" />
+                <input type="file" name="avatar" class="input-xlarge focused required"/>
              </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>
