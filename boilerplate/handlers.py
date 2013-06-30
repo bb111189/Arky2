@@ -29,6 +29,7 @@ from github import github
 from linkedin import linkedin
 from datetime import date
 from google.appengine.ext import ndb, db
+from PIL import Image
 
 # local application/library specific imports
 import pycountry
@@ -748,6 +749,13 @@ class RegisterHandler(RegisterBaseHandler):
     """
     Handler for Sign Up Users
     """
+    @classmethod
+    def is_png(self, file):
+        try:
+            i=Image.open(file)
+            return i.format =='JPEG'
+        except IOError:
+            return False
 
     def get(self):
         """ Returns a simple HTML form for create a new user """
@@ -807,8 +815,9 @@ class RegisterHandler(RegisterBaseHandler):
 
                 time.sleep(0.5)
                 user_info = models.User.get_by_email(email)
-                user_info.avatar = db.Blob(avatar)
-                user_info.put()
+                if self.is_png(avatar):
+                    user_info.avatar = db.Blob(avatar)
+                    user_info.put()
 
                 if (user_info.activated == False):
                     # send email
@@ -1564,6 +1573,9 @@ class RandomRequestHandler(RegisterBaseHandler):
     """
     Handler to show the home page
     """
+
+
+
 
     def get(self):
         """ Returns a simple HTML form for home """
