@@ -813,9 +813,11 @@ class RegisterHandler(RegisterBaseHandler):
 
                 time.sleep(0.5)
                 user_info = models.User.get_by_email(email)
-                if self.is_png(avatar):
+                try:
                     user_info.avatar = db.Blob(avatar)
                     user_info.put()
+                except:
+                    pass
 
                 if (user_info.activated == False):
                     # send email
@@ -1172,9 +1174,12 @@ class EditProfileHandler(BaseHandler):
                 user_info.dob = dob
                 user_info.put()
 
-                if self.is_png(avatar):
-                    user_info.avatar = db.Blob(avatar)
+
+                try:
+                    user_info = db.Blob(avatar)
                     user_info.put()
+                except:
+                    pass
 
                 message+= " " + _('Thanks, your settings have been saved.')
                 self.add_message(message, 'success')
@@ -1187,6 +1192,7 @@ class EditProfileHandler(BaseHandler):
                 return self.get()
 
         except (AttributeError, TypeError), e:
+            logging.error('Error updating profile: ' + str(e))
             login_error_message = _('Sorry you are not logged in.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
