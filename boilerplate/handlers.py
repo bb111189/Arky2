@@ -775,8 +775,9 @@ class RegisterHandler(RegisterBaseHandler):
         id_no = models.User.id_gen() + 1
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
-        #avatar = self.request.get('avatar')
         avatar = self.request.get('avatar')
+        #avatar = db.Blob(avatar)
+
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
@@ -1597,6 +1598,8 @@ class RandomRequestHandler(RegisterBaseHandler):
         'occupation': user_info.occupation,
         'age': age,
         'contribution': user_info.contribution,
+        'avatar': user_info.avatar,
+        'id': user_info.id_no
         }
         return self.render_template('random.html', **template_values)
 
@@ -1622,3 +1625,11 @@ class RandomScheduledRequestHandler(RegisterBaseHandler):
         params = {}
         return self.render_template('errors/forbidden_access.html', **params)
 
+class GetImage(RegisterBaseHandler):
+    def get(self):
+        idno = int(self.request.get("id"))
+        user_info = models.User.get_by_id_no(idno)
+
+        if user_info.avatar:
+            self.response.headers['Content-Type'] = "image/png"
+            self.response.out.write(user_info.avatar)
