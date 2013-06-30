@@ -1571,7 +1571,7 @@ class RandomRequestHandler(RegisterBaseHandler):
         while 1==1:
             randNo = random.randint(1, models.User.id_gen())
             user_info = models.User.get_by_id_no(randNo)
-            if user_info is not None or user_info.activated == True:
+            if user_info is not None and user_info.activated == True:
                 break
 
         user_info = models.User.get_by_id_no(randNo)
@@ -1608,7 +1608,7 @@ class RandomScheduledRequestHandler(RegisterBaseHandler):
         while 1==1:
             randNo = random.randint(1, models.User.id_gen())
             user_info = models.User.get_by_id_no(randNo)
-            if user_info is not None or user_info.activated == True:
+            if user_info is not None and user_info.activated == True:
                 break
 
         user_info = models.User.get_by_id_no(randNo)
