@@ -22,10 +22,11 @@
         <div class="span9">
             <div class="home_bp">
                 <h1>
-                    {% if avatar is defined %}
-                    <img src="/ava?id={{ id }}"><br>
-                    {% endif %}
+                    {% if imageD is  none %}
 
+                    {% else %}
+                        {{ imageD }}<br>
+                    {% endif %}
                     Name: {{ name }}<br>
                     Age: {{ age }} Years Old<br>
                     Country: {{ country }}<br>

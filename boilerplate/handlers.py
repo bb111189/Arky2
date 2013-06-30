@@ -1590,6 +1590,11 @@ class RandomRequestHandler(RegisterBaseHandler):
 
         """ country code convertor """
         country = pycountry.countries.get(alpha2=user_info.country)
+        imageDisplay= None
+        if user_info.avatar is not None:
+            imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
+
+
 
         template_values = {
         'name': user_info.name,
@@ -1599,7 +1604,8 @@ class RandomRequestHandler(RegisterBaseHandler):
         'age': age,
         'contribution': user_info.contribution,
         'avatar': user_info.avatar,
-        'id': user_info.id_no
+        'id': user_info.id_no,
+        'imageD': imageDisplay
         }
         return self.render_template('random.html', **template_values)
 
