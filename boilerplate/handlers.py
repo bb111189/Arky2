@@ -784,8 +784,6 @@ class RegisterHandler(RegisterBaseHandler):
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
         avatar = self.request.get('avatar')
-        #avatar = db.Blob(avatar)
-
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
@@ -1088,6 +1086,13 @@ class EditProfileHandler(BaseHandler):
     """
     Handler for Edit User Profile
     """
+    @classmethod
+    def is_png(self, file):
+        try:
+            i=Image.open(file)
+            return i.format =='JPEG'
+        except IOError:
+            return False
 
     @user_required
     def get(self):
@@ -1129,10 +1134,10 @@ class EditProfileHandler(BaseHandler):
         contribution = self.form.contribution.data
         occupation = self.form.occupation.data
         dob = self.form.dob.data
+        avatar = self.request.get('avatar')
 
         try:
             user_info = models.User.get_by_id(long(self.user_id))
-
             try:
                 message=''
                 # update username if it has changed and it isn't already taken
@@ -1166,6 +1171,11 @@ class EditProfileHandler(BaseHandler):
                 user_info.occupation = occupation
                 user_info.dob = dob
                 user_info.put()
+
+                if self.is_png(avatar):
+                    user_info.avatar = db.Blob(avatar)
+                    user_info.put()
+
                 message+= " " + _('Thanks, your settings have been saved.')
                 self.add_message(message, 'success')
                 return self.get()
@@ -1535,16 +1545,10 @@ class HomeRequestHandler(RegisterBaseHandler):
     """
     Handler to show the home page
     """
-
-    def get(self):
-        """ Returns a simple HTML form for home """
-        cap = models.RandomDaily.get_by_role('captain')
-        cap_info = models.User.get_by_id_no(cap.id_No)
-
+    """ Age calculator """
+    @classmethod
+    def ageCal(self, born):
         today = date.today()
-        born = cap_info.dob
-
-        """ Age calculator """
         try:
             birthday = born.replace(year=today.year)
         except ValueError: # raised when birth date is February 29 and the current year is not a leap year
@@ -1553,17 +1557,30 @@ class HomeRequestHandler(RegisterBaseHandler):
             age = today.year - born.year - 1
         else:
             age = today.year - born.year
+        return age
+
+    def get(self):
+        """ Returns a simple HTML form for home """
+        cap = models.RandomDaily.get_by_role('captain')
+        cap_info = models.User.get_by_id_no(cap.id_No)
+        capAge = self.ageCal(cap_info.dob)
+
 
         """ country code convertor """
         country = pycountry.countries.get(alpha2=cap_info.country)
+
+        imageDisplay= None
+        if cap_info.avatar is not None:
+            imageDisplay = '<img src="/ava?id=' + str(cap_info.id_no) + '">'
 
         template_values = {
         'name': cap_info.name,
         'country': country.name,
         'pm': cap_info.pm,
         'occupation': cap_info.occupation,
-        'age': age,
+        'age': capAge,
         'contribution': cap_info.contribution,
+        'imageD': imageDisplay
         }
         return self.render_template('random.html', **template_values)
 
@@ -1573,9 +1590,19 @@ class RandomRequestHandler(RegisterBaseHandler):
     """
     Handler to show the home page
     """
-
-
-
+    """ Age calculator """
+    @classmethod
+    def ageCal(self, born):
+        today = date.today()
+        try:
+            birthday = born.replace(year=today.year)
+        except ValueError: # raised when birth date is February 29 and the current year is not a leap year
+            birthday = born.replace(year=today.year, day=born.day-1)
+        if birthday > today:
+            age = today.year - born.year - 1
+        else:
+            age = today.year - born.year
+        return age
 
     def get(self):
         """ Returns a simple HTML form for home """
@@ -1587,37 +1614,18 @@ class RandomRequestHandler(RegisterBaseHandler):
                 break
 
         user_info = models.User.get_by_id_no(randNo)
-        today = date.today()
-        born = user_info.dob
+        age = self.ageCal(user_info.dob)
+        country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
 
-        """ Age calculator """
-        try:
-            birthday = born.replace(year=today.year)
-        except ValueError: # raised when birth date is February 29 and the current year is not a leap year
-            birthday = born.replace(year=today.year, day=born.day-1)
-        if birthday > today:
-            age = today.year - born.year - 1
-        else:
-            age = today.year - born.year
-
-        """ country code convertor """
-        country = pycountry.countries.get(alpha2=user_info.country)
+        """ Avatar display """
         imageDisplay= None
         if user_info.avatar is not None:
             imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
 
-
-
         template_values = {
-        'name': user_info.name,
-        'country': country.name,
-        'pm': user_info.pm,
-        'occupation': user_info.occupation,
-        'age': age,
-        'contribution': user_info.contribution,
-        'avatar': user_info.avatar,
-        'id': user_info.id_no,
-        'imageD': imageDisplay
+        'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
+        'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
+        'id': user_info.id_no, 'imageD': imageDisplay
         }
         return self.render_template('random.html', **template_values)
 
@@ -1651,3 +1659,4 @@ class GetImage(RegisterBaseHandler):
         if user_info.avatar:
             self.response.headers['Content-Type'] = "image/png"
             self.response.out.write(user_info.avatar)
+
