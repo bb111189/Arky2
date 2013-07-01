@@ -734,7 +734,7 @@ class LogoutHandler(BaseHandler):
             message = _("You've signed out successfully. Warning: Please clear all cookies and logout "
                         "of OpenId providers too if you logged in on a public computer.")
             self.add_message(message, 'info')
-            
+
         self.auth.unset_session()
         return self.redirect_to('home')
         # User is logged out, let's try redirecting to login page
@@ -1073,13 +1073,13 @@ class ContactHandler(BaseHandler):
 
             message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
-            return self.redirect_to('contact')
+            return self.redirect_to('home')
 
         except (AttributeError, KeyError), e:
             logging.error('Error sending contact form: %s' % e)
             message = _('Error sending the message. Please try again later.')
             self.add_message(message, 'error')
-            return self.redirect_to('contact')
+            return self.redirect_to('home')
 
     @webapp2.cached_property
     def form(self):
