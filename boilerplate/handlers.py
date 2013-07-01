@@ -734,8 +734,9 @@ class LogoutHandler(BaseHandler):
             message = _("You've signed out successfully. Warning: Please clear all cookies and logout "
                         "of OpenId providers too if you logged in on a public computer.")
             self.add_message(message, 'info')
-            return self.redirect_to('home')
+            
         self.auth.unset_session()
+        return self.redirect_to('home')
         # User is logged out, let's try redirecting to login page
         try:
             self.redirect(self.auth_config['login_url'])
