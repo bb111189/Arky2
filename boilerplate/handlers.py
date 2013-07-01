@@ -807,7 +807,7 @@ class RegisterHandler(RegisterBaseHandler):
             else:
                 message = _('Sorry, The user is already registered.')
             self.add_message(message, 'error')
-            return self.redirect_to('register')
+            return self.redirect_to('home')
         else:
             # User registered successfully
             # But if the user registered using the form, the user has to check their email to activate the account ???
