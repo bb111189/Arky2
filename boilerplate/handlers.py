@@ -249,7 +249,7 @@ class LoginHandler(BaseHandler):
             message = _("Your username or password is incorrect. "
                         "Please try again (make sure your caps lock is off)")
             self.add_message(message, 'error')
-            self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
+            self.redirect_to('home', continue_url=continue_url) if continue_url else self.redirect_to('home')
 
     @webapp2.cached_property
     def form(self):
