@@ -88,7 +88,7 @@ config = {
 'base_layout' : 'base.html',
 
 # send error emails to developers
-'send_mail_developer' : True,
+'send_mail_developer' : False,
 
 # fellas' list
 'developers' : (
@@ -96,10 +96,10 @@ config = {
 ),
 
 # If true, it will write in datastore a log of every email sent
-'log_email' : True,
+'log_email' : False,
 
 # If true, it will write in datastore a log of every visit
-'log_visit' : True,
+'log_visit' : False,
 
 # ----> ADD MORE CONFIGURATION OPTIONS HERE <----
 
