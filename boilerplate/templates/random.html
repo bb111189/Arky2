@@ -56,30 +56,32 @@
                     <div class="span5">
                         <h1>Captain of the Day</h1>
                         <h3 class="bubble">{{ pm }}</h3><br>
-                        <div class="span2">
-                            {% if imageD is  none %}
+                        <div class="row-fluid">
+                            <div class="span2">
+                                {% if imageD is  none %}
 
-                            {% else %}
-                                <img class="img-circle" src="{{ imageD }}" width="85px">
-                            {% endif %}
-                        </div>
+                                {% else %}
+                                    <img class="img-circle" src="{{ imageD }}" width="85px">
+                                {% endif %}
+                            </div>
 
-                        <div class="span12 dl-horizontal" style="word-wrap: break-word;" >
+                            <div class="span10 dl-horizontal" style="word-wrap: break-word;" >
 
-                            <h3>{{ name }}</h3>
-                            <dl style="color:#222222; font-size: 18px">
-                                <dt>Contribution: </dt>
-                                <dd>{{ contribution }}</dd>
-                                <dt>Age: </dt>
-                                <dd>{{ age }} Years Old</dd>
-                                <dt>Living in</dt>
-                                <dd>{{ country }}</dd>
-                                <dt>Working as</dt>
-                                <dd>{{ occupation }}</dd>
+                                <h3>{{ name }}</h3>
+                                <dl style="color:#222222; font-size: 18px">
+                                    <dt>Contribution: </dt>
+                                    <dd>{{ contribution }}</dd>
+                                    <dt>Age: </dt>
+                                    <dd>{{ age }} Years Old</dd>
+                                    <dt>Living in</dt>
+                                    <dd>{{ country }}</dd>
+                                    <dt>Working as</dt>
+                                    <dd>{{ occupation }}</dd>
 
 
-                            </dl>
+                                </dl>
 
+                            </div>
                         </div>
                     </div>
 
@@ -98,10 +100,10 @@
                 <div class="row">
                     <h1 align="center">Crew Members</h1>
                 </div>
-                <div class="row" id="crew12">
+                <div class="row-fluid" id="crew12">
                     <div class="span6" align="center">
                         <h3 class="bubble">{{ pm1 }}</h3><br>
-                        <div class="span3">
+                        <div class="span3 offset2">
                             {% if imageD1 is  none %}
 
                             {% else %}
@@ -109,7 +111,7 @@
                             {% endif %}
                         </div>
 
-                        <div class="span7">
+                        <div class="span3" style="word-wrap: break-word;">
 
                             <h3>{{ name1 }}</h3>
                             <dl style="color:white;">
