@@ -1073,7 +1073,7 @@ class ContactHandler(BaseHandler):
 
             message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
-            return self.redirect_to('home')
+            return self.redirect_to('thankyou')
 
         except (AttributeError, KeyError), e:
             logging.error('Error sending contact form: %s' % e)
@@ -1918,3 +1918,12 @@ class GetImage(RegisterBaseHandler):
             self.response.headers['Content-Type'] = "image/png"
             self.response.out.write(user_info.avatar)
 
+class ContactEndRequestHandler(RegisterBaseHandler):
+    """
+    Handler to show the home page
+    """
+
+    def get(self):
+        """ Returns a simple HTML form for home """
+        params = {}
+        return self.render_template('thankyou.html', **params)
