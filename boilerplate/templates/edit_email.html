@@ -1,10 +1,7 @@
-{% extends base_layout %}
+{% import "macros.html" as macros %}
+<link href="/boilerplate/css/bootstrap.css" rel="stylesheet">
 
-{% block header_title %}
-    {% trans %}Change your email{% endtrans %}
-{% endblock %}
-
-{% block content %}
+{% block profileBlock %}
 
     <form id="form_edit_email" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>

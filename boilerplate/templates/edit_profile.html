@@ -1,10 +1,13 @@
-{% extends base_layout %}
+{% import "macros.html" as macros %}
 
-{% block header_title %}
-        {% trans %}Edit Profile{% endtrans %}
-{% endblock %}
 
-{% block content %}
+<link href="/boilerplate/css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="/boilerplate/js/libs/jquery-1.10.1.min.js"></script>
+
+<!-- All JavaScript at the bottom, except this Modernizr build.
+   Modernizr enables HTML5 elements & feature detects for optimal performance. -->
+<script src="/boilerplate/js/libs/modernizr-2.6.1.min.js"></script>
+
     <div id="edit_profile" class="well form-horizontal">
         <fieldset>
             <form id="form_edit_profile" action="{{ url|safe }}" method="post" enctype="multipart/form-data">
@@ -37,6 +40,7 @@
                     <button type="submit" class="btn btn-primary">{% trans %}Update Profile{% endtrans %}</button>
                 </div>
             </form>
+            <!--
             {% if enable_federated_login %}
 	            {% if used_providers %}
 	                <div id="trird_party_login" class="existing-accociation">
@@ -68,28 +72,11 @@
 	                    </div>
 	                </div>
 	            {% endif %}
-            {% endif %}
+            {% endif %} -->
         </fieldset>
     </div>
 
-{% endblock %}
-
 {% block mediaJS %}
-<script type="text/javascript">
-    $().ready(function() {
-        $("#form_edit_profile").validate({
-            submitHandler: function(form) {
-                    form.submit();
-            },
-            errorPlacement: function(error, element) {
-                element.parent().parent().addClass("error");
-                error.addClass("help-inline").appendTo( element.parent() );
-            }
-        });
-        {% if country != "" %}
-        $('#country option[value="{{ country }}"]').attr("selected",true);
-        {% endif %}
-    });
-</script>
+
 {% endblock %}
 

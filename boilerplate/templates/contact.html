@@ -1,13 +1,7 @@
-{% extends base_layout %}
+{% import "macros.html" as macros %}
+<link href="/boilerplate/css/bootstrap.css" rel="stylesheet">
 
-{% block title %}
-        {% trans %}Contact{% endtrans %} - {{app_name}}
-{% endblock %}
-{% block header_title %}
-        {% trans %}Contact{% endtrans %}
-{% endblock %}
-
-{% block content %}
+{% block crew %}
     <form id="form_contact" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>
             <input type="hidden" name="exception" value="{{ exception }}">

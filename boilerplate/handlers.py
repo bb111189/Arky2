@@ -1669,7 +1669,7 @@ class RandomRequestHandler(RegisterBaseHandler):
         'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
         'id': user_info.id_no, 'imageD': imageDisplay
         }
-        return self.render_template('random1.html', **template_values)
+        return self.render_template('random.html', **template_values)
 
 class RandomScheduledRequestHandler(RegisterBaseHandler):
     """
