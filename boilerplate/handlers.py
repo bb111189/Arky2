@@ -249,7 +249,7 @@ class LoginHandler(BaseHandler):
             message = _("Your username or password is incorrect. "
                         "Please try again (make sure your caps lock is off)")
             self.add_message(message, 'error')
-            self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
+            self.redirect_to('home', continue_url=continue_url) if continue_url else self.redirect_to('home')
 
     @webapp2.cached_property
     def form(self):
@@ -736,6 +736,7 @@ class LogoutHandler(BaseHandler):
             self.add_message(message, 'info')
 
         self.auth.unset_session()
+        return self.redirect_to('home')
         # User is logged out, let's try redirecting to login page
         try:
             self.redirect(self.auth_config['login_url'])
@@ -1072,13 +1073,13 @@ class ContactHandler(BaseHandler):
 
             message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
-            return self.redirect_to('contact')
+            return self.redirect_to('thankyou')
 
         except (AttributeError, KeyError), e:
             logging.error('Error sending contact form: %s' % e)
             message = _('Error sending the message. Please try again later.')
             self.add_message(message, 'error')
-            return self.redirect_to('contact')
+            return self.redirect_to('home')
 
     @webapp2.cached_property
     def form(self):
@@ -1574,7 +1575,7 @@ class HomeRequestHandler(RegisterBaseHandler):
         cap_country = pycountry.countries.get(alpha2=cap_info.country)
         cap_imageDisplay= None
         if cap_info.avatar is not None:
-            cap_imageDisplay = '<img src="/ava?id=' + str(cap_info.id_no) + '">'
+            cap_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(cap_info.id_no) + '">'
 
 
         crew1 = models.RandomDaily.get_by_role('crew1')
@@ -1583,7 +1584,7 @@ class HomeRequestHandler(RegisterBaseHandler):
         crew1_country = pycountry.countries.get(alpha2=crew1_info.country)
         crew1_imageDisplay= None
         if crew1_info.avatar is not None:
-            crew1_imageDisplay = '<img src="/ava?id=' + str(crew1_info.id_no) + '">'
+            crew1_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew1_info.id_no) + '">'
 
         crew2 = models.RandomDaily.get_by_role('crew2')
         crew2_info = models.User.get_by_id_no(crew2.id_No)
@@ -1591,7 +1592,7 @@ class HomeRequestHandler(RegisterBaseHandler):
         crew2_country = pycountry.countries.get(alpha2=crew2_info.country)
         crew2_imageDisplay= None
         if crew2_info.avatar is not None:
-            crew2_imageDisplay = '<img src="/ava?id=' + str(crew2_info.id_no) + '">'
+            crew2_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew2_info.id_no) + '">'
 
         crew3 = models.RandomDaily.get_by_role('crew3')
         crew3_info = models.User.get_by_id_no(crew3.id_No)
@@ -1599,7 +1600,7 @@ class HomeRequestHandler(RegisterBaseHandler):
         crew3_country = pycountry.countries.get(alpha2=crew3_info.country)
         crew3_imageDisplay= None
         if crew3_info.avatar is not None:
-            crew3_imageDisplay = '<img src="/ava?id=' + str(crew3_info.id_no) + '">'
+            crew3_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew3_info.id_no) + '">'
 
         crew4 = models.RandomDaily.get_by_role('crew4')
         crew4_info = models.User.get_by_id_no(crew4.id_No)
@@ -1607,7 +1608,7 @@ class HomeRequestHandler(RegisterBaseHandler):
         crew4_country = pycountry.countries.get(alpha2=crew4_info.country)
         crew4_imageDisplay= None
         if crew4_info.avatar is not None:
-            crew4_imageDisplay = '<img src="/ava?id=' + str(crew4_info.id_no) + '">'
+            crew4_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew4_info.id_no) + '">'
 
         template_values = {
         'name': cap_info.name, 'country': cap_country.name, 'pm': cap_info.pm, 'occupation': cap_info.occupation,
@@ -1917,3 +1918,12 @@ class GetImage(RegisterBaseHandler):
             self.response.headers['Content-Type'] = "image/png"
             self.response.out.write(user_info.avatar)
 
+class ContactEndRequestHandler(RegisterBaseHandler):
+    """
+    Handler to show the home page
+    """
+
+    def get(self):
+        """ Returns a simple HTML form for home """
+        params = {}
+        return self.render_template('thankyou.html', **params)
