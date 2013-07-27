@@ -52,6 +52,15 @@ class UserMixin(BaseForm):
     occupation = fields.TextField(_('Name'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
     dob = fields.DateField(_('Dob'), [validators.required()]) #future work: regex for date
     avatar = fields.FileField(_('Avatar'))
+    p_email = fields.BooleanField(_('Email'))
+    p_country = fields.BooleanField(_('Country'))
+    p_dob = fields.BooleanField(_('Age'))
+
+class privacyForm(BaseForm):
+    p_email = fields.BooleanField(_('p_Email'))
+    p_country = fields.BooleanField(_('p_Country'))
+    p_dob = fields.BooleanField(_('p_Age'))
+
 class PasswordResetCompleteForm(PasswordMixin, ConfirmPasswordMixin):
     pass
 

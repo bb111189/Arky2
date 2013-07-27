@@ -28,6 +28,26 @@ class RandomDaily(User):
             count += 1
         return count
 
+class Privacy(User):
+    id_no = ndb.IntegerProperty(default=0)
+    email = ndb.BooleanProperty(default=True)
+    age = ndb.BooleanProperty(default=True)
+    country = ndb.BooleanProperty(default=True)
+
+    @classmethod
+    def get_by_id_no(cls, id_no):
+        """Returns a user object based on an id_no.
+
+        :param id_no:
+            Int representing the user id. Examples:
+
+        :returns:
+            A user object.
+        """
+        return cls.query(cls.id_no == id_no).get()
+
+
+
 class User(User):
     """
     Universal user model. Can be used with App Engine's default users API,
@@ -48,7 +68,6 @@ class User(User):
     last_name = ndb.StringProperty()
     #: User email
     email = ndb.StringProperty()
-
     #: Hashed password. Only set for own authentication.
     # Not required because third party authentication
     # doesn't use password.
@@ -64,9 +83,7 @@ class User(User):
     dob = ndb.DateProperty()
     id_no = ndb.IntegerProperty(default=0)
     avatar = ndb.BlobProperty()
-
-
-
+    profile = ndb.StringProperty()
 
     @classmethod
     def get_by_email(cls, email):

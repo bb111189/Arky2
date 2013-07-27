@@ -799,6 +799,9 @@ class RegisterHandler(RegisterBaseHandler):
             contribution=contribution, pm=pm, dob=dob, id_no=id_no
         )
 
+        priv = models.Privacy(id_no=id_no)
+        priv.put()
+
         if not user[0]: #user is a tuple
             if "username" in str(user[1]):
                 message = _('Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username) )
@@ -820,6 +823,13 @@ class RegisterHandler(RegisterBaseHandler):
                     user_info.put()
                 except:
                     pass
+
+
+                #user_obj = models.Privacy.get_by_id(id_no)
+                #user_obj.country = True
+                #user_obj.email = True
+                #user_obj.dob = True
+                #user_obj.put()
 
                 if (user_info.activated == False):
                     # send email
@@ -1101,7 +1111,6 @@ class EditProfileHandler(BaseHandler):
     @user_required
     def get(self):
         """ Returns a simple HTML form for edit profile """
-
         params = {}
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
@@ -1806,6 +1815,9 @@ class RandomScheduledRequestHandler(RegisterBaseHandler):
             ip=self.request.remote_addr, country=country, occupation=occupation,
             contribution=contribution, pm=pm, dob=dob, id_no=id_no
         )
+        #privacy = self.auth.store.user_model.create_user(
+        #    country=True, country=True, dob=True
+        #)
 
         if not user[0]: #user is a tuple
             if "username" in str(user[1]):
@@ -1927,3 +1939,116 @@ class ContactEndRequestHandler(RegisterBaseHandler):
         """ Returns a simple HTML form for home """
         params = {}
         return self.render_template('thankyou.html', **params)
+
+class userProfileHandler(RegisterBaseHandler):
+    """
+    Handler to control user profile
+    """
+
+    """
+    Handler to show the home page
+    """
+    """ Age calculator """
+    @classmethod
+    def ageCal(self, born):
+        today = date.today()
+        try:
+            birthday = born.replace(year=today.year)
+        except ValueError: # raised when birth date is February 29 and the current year is not a leap year
+            birthday = born.replace(year=today.year, day=born.day-1)
+        if birthday > today:
+            age = today.year - born.year - 1
+        else:
+            age = today.year - born.year
+        return age
+
+    def get(self):
+        idno = int(self.request.get("id"))
+        user_info = models.User.get_by_id_no(idno)
+
+        user_info = models.User.get_by_id_no(1)
+        age = self.ageCal(user_info.dob)
+        country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
+
+        """ Avatar display """
+        imageDisplay= None
+        if user_info.avatar is not None:
+            imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
+
+        template_values = {
+        'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
+        'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
+        'id': user_info.id_no, 'imageD': imageDisplay
+        }
+        return self.render_template('random.html', **template_values)
+
+class privacyHandler(RegisterBaseHandler):
+    #need user_required and change to basehandler
+
+    def get(self):
+
+        params = {}
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+            user_obj = models.Privacy.get_by_id_no(user_info.id_no)
+            self.form.p_email.data = user_obj.email
+            self.form.p_country.data = user_obj.country
+            self.form.p_dob.data = user_obj.age
+
+            providers_info = user_info.get_social_providers_info()
+            if not user_info.password:
+                params['local_account'] = False
+            else:
+                params['local_account'] = True
+            params['used_providers'] = providers_info['used']
+            params['unused_providers'] = providers_info['unused']
+            params['country'] = user_info.country
+
+        return self.render_template('privacy.html', **params)
+
+    def post(self):
+        """ Get fields from POST dict """
+
+        #if not self.form.validate():
+        #    return self.get()
+        p_email = self.form.p_email.data
+        p_country = self.form.p_country.data
+        p_age = self.form.p_dob.data
+
+
+        try:
+            user_info = models.User.get_by_id(long(self.user_id))
+            user_obj = models.Privacy.get_by_id_no(user_info.id_no)
+
+            if(user_obj == None):
+                login_error_message = _('Sorry you are not logged in.')
+                self.add_message(login_error_message, 'error')
+                #self.redirect_to('login')
+                self.redirect_to('home')
+
+            try:
+                message=''
+                user_obj.country  = p_country
+                user_obj.age = p_age
+                user_obj.email = p_email
+                user_obj.put()
+
+                message+= " " + _('Thanks, your privacy settings have been saved.')
+                self.add_message(message, 'success')
+                self.redirect_to('home')
+                #return self.get()
+
+            except (AttributeError, KeyError, ValueError), e:
+                logging.error('Error updating settings: ' + e)
+                message = _('Unable to update settings. Please try again later.')
+                self.add_message(message, 'error')
+                self.redirect_to('home')
+                #return self.get()
+
+        except (AttributeError, TypeError), e:
+            logging.error('Error updating privacy setting: ' + str(e))
+            login_error_message = _('Sorry you are not logged in.')
+            self.add_message(login_error_message, 'error')
+            #self.redirect_to('login')
+            self.redirect_to('home')
+

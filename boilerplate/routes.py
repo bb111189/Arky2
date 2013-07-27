@@ -32,6 +32,8 @@ _routes = [
     RedirectRoute('/ava', handlers.GetImage, name='image', strict_slash=True),
     RedirectRoute('/randomdaily', handlers.RandomScheduledRequestHandler, name='randomdaily', strict_slash=True),
     RedirectRoute('/thankyou', handlers.ContactEndRequestHandler, name='thankyou', strict_slash=True),
+    RedirectRoute('/user', handlers.userProfileHandler, name='user', strict_slash=True),
+    RedirectRoute('/privacy', handlers.privacyHandler, name='privacy', strict_slash=True),
     RedirectRoute('/', handlers.HomeRequestHandler, name='home', strict_slash=True)
 
 ]
