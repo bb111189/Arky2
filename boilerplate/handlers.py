@@ -2052,7 +2052,7 @@ class userProfileHandler(RegisterBaseHandler):
             self.redirect_to('home')
 
 class privacyHandler(RegisterBaseHandler):
-    #need user_required and change to basehandler
+    #"MAY"need user_required and change to basehandler
 
     def get(self):
 
@@ -2123,7 +2123,7 @@ class privacyHandler(RegisterBaseHandler):
 
 class discoverHandler(RegisterBaseHandler):
     """
-    Handler to control user profile
+    Handler to control occupation discovery feature
     """
 
     """
@@ -2184,3 +2184,15 @@ class discoverHandler(RegisterBaseHandler):
             login_error_message = _('Sorry, there is no result.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('home')
+
+class searchDiscoverHandler(RegisterBaseHandler):
+    """
+    Handler to search by occupation
+    Redirect via get to /discover
+    """
+    def get(self):
+        params = {'occ': '/discover'}
+        return self.render_template('search.html', **params)
+
+
+

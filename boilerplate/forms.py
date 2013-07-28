@@ -55,6 +55,7 @@ class UserMixin(BaseForm):
     p_email = fields.BooleanField(_('Email'))
     p_country = fields.BooleanField(_('Country'))
     p_dob = fields.BooleanField(_('Age'))
+    occ = fields.TextField(_('occ'), [validators.Length(max=FIELD_MAXLENGTH)])
 
 class privacyForm(BaseForm):
     p_email = fields.BooleanField(_('p_Email'))
