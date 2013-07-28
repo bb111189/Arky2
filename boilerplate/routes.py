@@ -34,6 +34,7 @@ _routes = [
     RedirectRoute('/thankyou', handlers.ContactEndRequestHandler, name='thankyou', strict_slash=True),
     RedirectRoute('/user', handlers.userProfileHandler, name='user', strict_slash=True),
     RedirectRoute('/privacy', handlers.privacyHandler, name='privacy', strict_slash=True),
+    RedirectRoute('/discover', handlers.discoverHandler, name='discover', strict_slash=True),
     RedirectRoute('/', handlers.HomeRequestHandler, name='home', strict_slash=True)
 
 ]

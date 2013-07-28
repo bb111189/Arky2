@@ -110,13 +110,29 @@ class User(User):
         return cls.query(cls.id_no == id_no).get()
 
     @classmethod
-    def id_gen(cls):
+    def id_gen(cls, occ):
         q = cls.query()
         results = q.fetch()
         count = 0
         for item in results:
             count += 1
         return count
+
+    @classmethod
+    def count_by_occ(cls, occ):
+        q = cls.query(cls.occupation == occ)
+        results = q.fetch()
+        count = 0
+        for item in results:
+            count += 1
+        return count
+
+    @classmethod
+
+    def return_by_occ(cls, offset, occ):
+        q = cls.query(cls.occupation == occ)
+        result = q.fetch(1, offset=offset)
+        return result
 
 
     @classmethod
