@@ -1596,7 +1596,8 @@ class HomeRequestHandler(RegisterBaseHandler):
 
         crew1 = models.RandomDaily.get_by_role('crew1')
         crew1_info = models.User.get_by_id_no(crew1.id_No)
-        cre1_Age = self.ageCal(crew1_info.dob)
+        crew1_Age = self.ageCal(crew1_info.dob)
+        crew1_email = crew1_info.email
         crew1_country = pycountry.countries.get(alpha2=crew1_info.country)
         crew1_imageDisplay= None
         if crew1_info.avatar is not None:
@@ -1611,7 +1612,8 @@ class HomeRequestHandler(RegisterBaseHandler):
 
         crew2 = models.RandomDaily.get_by_role('crew2')
         crew2_info = models.User.get_by_id_no(crew2.id_No)
-        cre2_Age = self.ageCal(crew2_info.dob)
+        crew2_Age = self.ageCal(crew2_info.dob)
+        crew2_email = crew2_info.email
         crew2_country = pycountry.countries.get(alpha2=crew2_info.country)
         crew2_imageDisplay= None
         if crew2_info.avatar is not None:
@@ -1626,7 +1628,8 @@ class HomeRequestHandler(RegisterBaseHandler):
 
         crew3 = models.RandomDaily.get_by_role('crew3')
         crew3_info = models.User.get_by_id_no(crew3.id_No)
-        cre3_Age = self.ageCal(crew3_info.dob)
+        crew3_Age = self.ageCal(crew3_info.dob)
+        crew3_email = crew3_info.email
         crew3_country = pycountry.countries.get(alpha2=crew3_info.country)
         crew3_imageDisplay= None
         if crew3_info.avatar is not None:
@@ -1641,7 +1644,8 @@ class HomeRequestHandler(RegisterBaseHandler):
 
         crew4 = models.RandomDaily.get_by_role('crew4')
         crew4_info = models.User.get_by_id_no(crew4.id_No)
-        cre4_Age = self.ageCal(crew4_info.dob)
+        crew4_Age = self.ageCal(crew4_info.dob)
+        crew4_email = crew4_info.email
         crew4_country = pycountry.countries.get(alpha2=crew4_info.country)
         crew4_imageDisplay= None
         if crew4_info.avatar is not None:
@@ -1656,19 +1660,19 @@ class HomeRequestHandler(RegisterBaseHandler):
 
         template_values = {
         'name': cap_info.name, 'country': cap_country.name, 'pm': cap_info.pm, 'occupation': cap_info.occupation,
-        'age': cap_Age, 'contribution': cap_info.contribution, 'imageD': cap_imageDisplay, 'email' : cap_email,
+        'age': cap_Age, 'contribution': cap_info.contribution, 'imageD': cap_imageDisplay, 'email_cap' : cap_email,
 
         'name1': crew1_info.name, 'country1': crew1_country.name, 'pm1': crew1_info.pm, 'occupation1': crew1_info.occupation,
-        'age1': cre1_Age, 'contribution1': crew1_info.contribution, 'imageD1': crew1_imageDisplay, 'email1' : crew1_email,
+        'age1': crew1_Age, 'contribution1': crew1_info.contribution, 'imageD1': crew1_imageDisplay, 'email1' : crew1_email,
 
         'name2': crew2_info.name, 'country2': crew2_country.name, 'pm2': crew2_info.pm, 'occupation2': crew2_info.occupation,
-        'age2': cre2_Age, 'contribution2': crew2_info.contribution, 'imageD2': crew2_imageDisplay, 'email2' : crew2_email,
+        'age2': crew2_Age, 'contribution2': crew2_info.contribution, 'imageD2': crew2_imageDisplay, 'email2' : crew2_email,
 
         'name3': crew3_info.name, 'country3': crew3_country.name, 'pm3': crew3_info.pm, 'occupation3': crew3_info.occupation,
-        'age3': cre3_Age, 'contribution3': crew3_info.contribution, 'imageD3': crew3_imageDisplay, 'email3' : crew3_email,
+        'age3': crew3_Age, 'contribution3': crew3_info.contribution, 'imageD3': crew3_imageDisplay, 'email3' : crew3_email,
 
         'name4': crew4_info.name, 'country4': crew4_country.name, 'pm4': crew4_info.pm, 'occupation4': crew4_info.occupation,
-        'age4': cre4_Age, 'contribution4': crew4_info.contribution, 'imageD4': crew4_imageDisplay, 'email4' : crew4_email,
+        'age4': crew4_Age, 'contribution4': crew4_info.contribution, 'imageD4': crew4_imageDisplay, 'email4' : crew4_email,
         }
 
         return self.render_template('random.html', **template_values)
@@ -1998,32 +2002,43 @@ class userProfileHandler(RegisterBaseHandler):
         return age
 
     def get(self):
-        idno = int(self.request.get("id"))
-        user_info = models.User.get_by_id_no(idno)
+        try:
+            idno = int(self.request.get("id"))
+            user_info = models.User.get_by_id_no(idno)
 
-        user_info = models.User.get_by_id_no(1)
-        age = self.ageCal(user_info.dob)
-        country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
+            if user_info is None:
+                self.redirect("home")
 
-        """ Avatar display """
-        imageDisplay= None
-        if user_info.avatar is not None:
-            imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
+            #user_info = models.User.get_by_id_no(1)
+            age = self.ageCal(user_info.dob)
+            country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
 
-        user_prv = models.Privacy.get_by_id_no(user_info.id_no)
-        if user_prv.age == False:
-            age = "Undisclosed"
-        if user_prv.country == False:
-            country.name = "Undisclosed"
-        if user_prv.email == False:
-            email = "Undisclosed"
+            """ Avatar display """
+            imageDisplay= None
+            if user_info.avatar is not None:
+                imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
 
-        template_values = {
-        'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
-        'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-        'id': user_info.id_no, 'imageD': imageDisplay, 'email' : email
-        }
-        return self.render_template('random.html', **template_values)
+            user_prv = models.Privacy.get_by_id_no(user_info.id_no)
+            if user_prv.age == False:
+                age = "Undisclosed"
+            if user_prv.country == False:
+                country.name = "Undisclosed"
+            if user_prv.email == False:
+                email = "Undisclosed"
+            else:
+                email = user_info.email
+
+            template_values = {
+            'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
+            'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
+            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
+            }
+            return self.render_template('random.html', **template_values)
+        except (AttributeError, TypeError, ValueError), e:
+            logging.error('Error updating privacy setting: ' + str(e))
+            login_error_message = _('Sorry no such user exists.')
+            self.add_message(login_error_message, 'error')
+            self.redirect_to('home')
 
 class privacyHandler(RegisterBaseHandler):
     #need user_required and change to basehandler
@@ -2095,3 +2110,52 @@ class privacyHandler(RegisterBaseHandler):
             #self.redirect_to('login')
             self.redirect_to('home')
 
+class discoverHandler(RegisterBaseHandler):
+    """
+    Handler to control user profile
+    """
+
+    """
+    Handler to show the home page
+    """
+    """ Age calculator """
+    @classmethod
+    def ageCal(self, born):
+        today = date.today()
+        try:
+            birthday = born.replace(year=today.year)
+        except ValueError: # raised when birth date is February 29 and the current year is not a leap year
+            birthday = born.replace(year=today.year, day=born.day-1)
+        if birthday > today:
+            age = today.year - born.year - 1
+        else:
+            age = today.year - born.year
+        return age
+
+    def get(self):
+        idno = int(self.request.get("occ"))
+        user_info = models.User.get_by_id_no(idno)
+
+        user_info = models.User.get_by_id_no(1)
+        age = self.ageCal(user_info.dob)
+        country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
+
+        """ Avatar display """
+        imageDisplay= None
+        if user_info.avatar is not None:
+            imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
+
+        user_prv = models.Privacy.get_by_id_no(user_info.id_no)
+        if user_prv.age == False:
+            age = "Undisclosed"
+        if user_prv.country == False:
+            country.name = "Undisclosed"
+        if user_prv.email == False:
+            email = "Undisclosed"
+
+        template_values = {
+        'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
+        'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
+        'id': user_info.id_no, 'imageD': imageDisplay, 'email' : email
+        }
+        return self.render_template('random.html', **template_values)
