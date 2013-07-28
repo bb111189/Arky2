@@ -1704,7 +1704,7 @@ class RandomRequestHandler(RegisterBaseHandler):
             if user_info is not None and user_info.activated == True:
                 break
 
-        user_info = models.User.get_by_id_no(1) #to change
+        user_info = models.User.get_by_id_no(randNo) #to change
         age = self.ageCal(user_info.dob)
         country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
 
@@ -1713,10 +1713,21 @@ class RandomRequestHandler(RegisterBaseHandler):
         if user_info.avatar is not None:
             imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
 
+        user_prv = models.Privacy.get_by_id_no(user_info.id_no)
+        if user_prv.age == False:
+            age = "Undisclosed"
+        if user_prv.country == False:
+            country.name = "Undisclosed"
+        if user_prv.email == False:
+            email = "Undisclosed"
+        else:
+            email = user_info.email
+
+
         template_values = {
         'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
         'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-        'id': user_info.id_no, 'imageD': imageDisplay
+        'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
         }
         return self.render_template('random.html', **template_values)
 
