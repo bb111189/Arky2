@@ -110,7 +110,7 @@ class User(User):
         return cls.query(cls.id_no == id_no).get()
 
     @classmethod
-    def id_gen(cls, occ):
+    def id_gen(cls):
         q = cls.query()
         results = q.fetch()
         count = 0

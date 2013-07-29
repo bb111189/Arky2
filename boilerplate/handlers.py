@@ -1741,6 +1741,7 @@ class RandomScheduledRequestHandler(RegisterBaseHandler):
         counter = 0
         while counter<=100: #prevent infinite loop
             randNo = random.randint(1, models.User.id_gen())
+
             user_info = models.User.get_by_id_no(randNo)
             if user_info is not None and user_info.activated == True:
                 break
