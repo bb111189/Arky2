@@ -824,12 +824,14 @@ class RegisterHandler(RegisterBaseHandler):
                 except:
                     pass
 
-
-                #user_obj = models.Privacy.get_by_id(id_no)
-                #user_obj.country = True
-                #user_obj.email = True
-                #user_obj.dob = True
-                #user_obj.put()
+                try:
+                    user_obj = models.Privacy.get_by_id(id_no)
+                    user_obj.country = True
+                    user_obj.email = True
+                    user_obj.dob = True
+                    user_obj.put()
+                except:
+                    pass
 
                 if (user_info.activated == False):
                     # send email
