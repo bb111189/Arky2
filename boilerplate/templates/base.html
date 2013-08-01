@@ -349,24 +349,34 @@ footer{
                             <a class="brand" href="/">Arky</a>
                             <div class="nav-collapse collapse">
                                 <ul class="nav pull-right">
+
+
+
                                     <li><a href="#whatIsArky" id="whatisarkybutton">What Is Arky?</a></li>
                                     <li><a href="#" id="openContactUs" role="button" data-toggle="modal">Contact</a></li>
                                     <li class="dropdown">
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Interesting People<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-                                            <li><a tabindex="-1" href="#">By Workfield</a></li>
-                                            <li><a tabindex="-1" href="#">By Region</a></li>
-                                            <li><a tabindex="-1" href="#">By Age</a></li>
+                                            <li><a tabindex="-1" href="/random">I'm Lucky</a></li>
+                                            <li><a tabindex="-1" href="/discover?occ=engineer">Engineer</a></li>
+                                            <li><a tabindex="-1" href="/discover?occ=student">Student</a></li>
+                                            <li><a tabindex="-1" href="/discover?occ="Gamer">Gamer</a></li>
                                             <!--<li class="divider"></li>-->
                                         </ul>
                                     </li>
-
+                                    <li class="navbar-search">
+                                        <form action="{{ occ }}" method="get" enctype="multipart/form-data">
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                                            {{ macros.field(form.occ, label=_(" ")) }}
+                                        </form>
+                                    </li>
                                     {% if user_id %}
                                         <li class="divider-vertical"></li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ username }} <b class="caret"></b></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="#" id="openEditProfile" role="button" data-toggle="modal">{% trans %}Edit Profile{% endtrans %}</a></li>
+                                                <li><a href="#" id="openEditPrivacy" role="button" data-toggle="modal">{% trans %}Edit Privacy{% endtrans %}</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="{{ logout_url }}">{% trans %}Logout{% endtrans %}</a></li>
                                             </ul>
@@ -379,6 +389,8 @@ footer{
                                             <a href="#signUp" role="button" data-toggle="modal">Sign Up</a>
                                         </li>
                                     {% endif %}
+
+
                                 </ul>
                             </div>
                         </div><!--/.nav-collapse -->

@@ -1579,6 +1579,8 @@ class HomeRequestHandler(RegisterBaseHandler):
         return age
 
     def get(self):
+
+
         """ Returns a simple HTML form for home """
         cap = models.RandomDaily.get_by_role('captain')
         cap_info = models.User.get_by_id_no(cap.id_No)
@@ -1675,7 +1677,10 @@ class HomeRequestHandler(RegisterBaseHandler):
 
         'name4': crew4_info.name, 'country4': crew4_country.name, 'pm4': crew4_info.pm, 'occupation4': crew4_info.occupation,
         'age4': crew4_Age, 'contribution4': crew4_info.contribution, 'imageD4': crew4_imageDisplay, 'email4' : crew4_email,
+
+        'occ': '/discover'
         }
+
 
         return self.render_template('random.html', **template_values)
 
@@ -1731,7 +1736,7 @@ class RandomRequestHandler(RegisterBaseHandler):
         'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
         'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
         }
-        return self.render_template('random.html', **template_values)
+        return self.render_template('lucky.html', **template_values)
 
 class RandomScheduledRequestHandler(RegisterBaseHandler):
     """
@@ -2096,7 +2101,7 @@ class privacyHandler(RegisterBaseHandler):
                 login_error_message = _('Sorry you are not logged in.')
                 self.add_message(login_error_message, 'error')
                 #self.redirect_to('login')
-                self.redirect_to('home')
+                self.redirect_to('privacy')
 
             try:
                 message=''
@@ -2107,14 +2112,14 @@ class privacyHandler(RegisterBaseHandler):
 
                 message+= " " + _('Thanks, your privacy settings have been saved.')
                 self.add_message(message, 'success')
-                self.redirect_to('home')
+                self.redirect_to('privacy')
                 #return self.get()
 
             except (AttributeError, KeyError, ValueError), e:
                 logging.error('Error updating settings: ' + e)
                 message = _('Unable to update settings. Please try again later.')
                 self.add_message(message, 'error')
-                self.redirect_to('home')
+                self.redirect_to('privacy')
                 #return self.get()
 
         except (AttributeError, TypeError), e:
@@ -2122,7 +2127,7 @@ class privacyHandler(RegisterBaseHandler):
             login_error_message = _('Sorry you are not logged in.')
             self.add_message(login_error_message, 'error')
             #self.redirect_to('login')
-            self.redirect_to('home')
+            self.redirect_to('privacy')
 
 class discoverHandler(RegisterBaseHandler):
     """
@@ -2182,7 +2187,7 @@ class discoverHandler(RegisterBaseHandler):
             'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
             'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
             }
-            return self.render_template('random.html', **template_values)
+            return self.render_template('lucky.html', **template_values)
         else:
             login_error_message = _('Sorry, there is no result.')
             self.add_message(login_error_message, 'error')
@@ -2195,7 +2200,7 @@ class searchDiscoverHandler(RegisterBaseHandler):
     """
     def get(self):
         params = {'occ': '/discover'}
-        return self.render_template('search.html', **params)
+        return self.render_template('random.html', **params)
 
 
 

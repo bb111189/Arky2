@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="span5">
-                        <h1>Captain of the Day</h1>
+                        <h1>Lucky Captain</h1>
                         <h3 class="bubble">{{ pm }}</h3><br>
                         <div class="row-fluid">
                             <div class="span2">
@@ -94,138 +94,6 @@
 
 
 {% block crew %}
-    <div class="row"><!--START OF ROW 2-->
-        <div class="crew">
-            <div class="container marketing">
-
-                <div class="row">
-                    <h1 align="center">Crew Members</h1>
-                </div>
-                <div class="row-fluid" id="crew12">
-                    <div class="span6" align="center">
-                        <h3 class="bubble">{{ pm1 }}</h3><br>
-                        <div class="span3 offset2">
-                            {% if imageD1 is  none %}
-
-                            {% else %}
-                                {{ imageD1 }}
-                            {% endif %}
-                        </div>
-
-                        <div class="span3" style="word-wrap: break-word;">
-
-                            <h3>{{ name1 }}</h3>
-                            <dl style="color:white;">
-                                <dt>Contribution to society</dt>
-                                <dd>{{ contribution1 }}</dd>
-                                <dt>Age</dt>
-                                <dd>{{ age1 }}</dd>
-                                <dt>Living in</dt>
-                                <dd>{{ country1 }}</dd>
-                                <dt>Working as</dt>
-                                <dd>{{ occupation1 }}</dd>
-                                <dt>Email: </dt>
-                                <dd>{{ email1 }}</dd>
-
-                            </dl>
-
-                        </div>
-
-                    </div>
-
-                    <div class="span6" align="center">
-                        <h3 class="bubble">{{ pm2 }}</h3><br>
-                        <div class="span3 offset2">
-                            {% if imageD2 is  none %}
-
-                            {% else %}
-                                {{ imageD2 }}
-                            {% endif %}
-                        </div>
-
-                        <div class="span3" style="word-wrap: break-word;">
-
-                            <h3>{{ name2 }}</h3>
-                            <dl style="color:white;">
-                                <dt>Contribution to society</dt>
-                                <dd>{{ contribution2 }}</dd>
-                                <dt>Age</dt>
-                                <dd>{{ age2 }}</dd>
-                                <dt>Living in</dt>
-                                <dd>{{ country2 }}</dd>
-                                <dt>Working as</dt>
-                                <dd>{{ occupation2 }}</dd>
-                                <dt>Email: </dt>
-                                <dd>{{ email2 }}</dd>
-
-                            </dl>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row-fluid" id="crew34">
-                    <div class="span6" align="center">
-                        <h3 class="bubble">{{ pm3 }}</h3><br>
-                        <div class="span3 offset2">
-                            {% if imageD3 is  none %}
-
-                            {% else %}
-                                {{ imageD3 }}
-                            {% endif %}
-                        </div>
-
-                        <div class="span3" style="word-wrap: break-word;">
-
-                            <h3>{{ name3 }}</h3>
-                            <dl style="color:white;">
-                                <dt>Contribution to society</dt>
-                                <dd>{{ contribution3 }}</dd>
-                                <dt>Age</dt>
-                                <dd>{{ age3 }}</dd>
-                                <dt>Living in</dt>
-                                <dd>{{ country3 }}</dd>
-                                <dt>Working as</dt>
-                                <dd>{{ occupation3 }}</dd>
-                                <dt>Email: </dt>
-                                <dd>{{ email3 }}</dd>
-
-                            </dl>
-
-                        </div>
-                    </div>
-                    <div class="span6" align="center">
-                        <h3 class="bubble">{{ pm4 }}</h3><br>
-                        <div class="span3 offset2">
-                            {% if imageD4 is  none %}
-
-                            {% else %}
-                                {{ imageD4 }}
-                            {% endif %}
-                        </div>
-
-                        <div class="span3"style="word-wrap: break-word;">
-
-                            <h3>{{ name4 }}</h3>
-                            <dl style="color:white;">
-                                <dt>Contribution to society</dt>
-                                <dd>{{ contribution4 }}</dd>
-                                <dt>Age</dt>
-                                <dd>{{ age4 }}</dd>
-                                <dt>Living in</dt>
-                                <dd>{{ country4 }}</dd>
-                                <dt>Working as</dt>
-                                <dd>{{ occupation4 }}</dd>
-                                <dt>Email: </dt>
-                                <dd>{{ email4 }}</dd>
-
-                            </dl>
-
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /.container -->
-        </div><!-- /end of row 2 -->
-    </div>
 
 {% endblock %}
 
@@ -349,23 +217,13 @@
         </div>
         <div class="modal-body">
             <iframe src="" style="" frameborder="0" width="100%" height="250">
-
+                {% block profileBlock %}
+                {% endblock %}
             </iframe>
         </div>
 
     </div>
 
-    <div id="editPrivacy" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Something that you want to hide?</h3>
-        </div>
-        <div class="modal-body">
-            <iframe src="" style="" frameborder="0" width="100%" height="250">
-
-            </iframe>
-        </div>
-    </div>
 
 
 {% endblock %}
@@ -485,7 +343,6 @@
     <!--LOAD IFRAME FOR EDIT PROFILE-->
     <script type="text/javascript">
         var profileFrameSrc = "/settings/profile";
-        var privacyFrameSrc = "/privacy";
 
         $('#openEditProfile').click(function(){
             $('#editProfile').on('show', function () {
@@ -497,18 +354,6 @@
             //$('body').css('position','fixed');
 
         });
-
-        $('#openEditPrivacy').click(function(){
-            $('#editPrivacy').on('show', function () {
-                $('iframe').attr("src",privacyFrameSrc);
-
-            });
-            $('#editPrivacy').modal({show:true})
-            //$('body').css('overflow','hidden');
-            //$('body').css('position','fixed');
-
-        });
-
 
         var contactUsFrameSrc = "/contact";
 
