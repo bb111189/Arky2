@@ -1718,7 +1718,7 @@ class RandomRequestHandler(RegisterBaseHandler):
         """ Avatar display """
         imageDisplay= None
         if user_info.avatar is not None:
-            imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
+            imageDisplay = '<img class="img-circle" src="/ava?id=' + str(user_info.id_no) + '">'
 
         user_prv = models.Privacy.get_by_id_no(user_info.id_no)
         if user_prv.age == False:
@@ -2035,7 +2035,7 @@ class userProfileHandler(RegisterBaseHandler):
             """ Avatar display """
             imageDisplay= None
             if user_info.avatar is not None:
-                imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
+                imageDisplay = '<img class="img-circle" src="/ava?id=' + str(user_info.id_no) + '">'
 
             user_prv = models.Privacy.get_by_id_no(user_info.id_no)
             if user_prv.age == False:
@@ -2172,7 +2172,7 @@ class discoverHandler(RegisterBaseHandler):
             """ Avatar display """
             imageDisplay= None
             if user_info.avatar is not None:
-                imageDisplay = '<img src="/ava?id=' + str(user_info.id_no) + '">'
+                imageDisplay = '<img class="img-circle" src="/ava?id=' + str(user_info.id_no) + '">'
 
             user_prv = models.Privacy.get_by_id_no(user_info.id_no)
             if user_prv.age == False:
