@@ -1582,6 +1582,9 @@ class HomeRequestHandler(RegisterBaseHandler):
 
 
         """ Returns a simple HTML form for home """
+
+        user_no = models.User.get_by_id(long(self.user_id))
+
         cap = models.RandomDaily.get_by_role('captain')
         cap_info = models.User.get_by_id_no(cap.id_No)
         cap_Age = self.ageCal(cap_info.dob)
@@ -1678,7 +1681,9 @@ class HomeRequestHandler(RegisterBaseHandler):
         'name4': crew4_info.name, 'country4': crew4_country.name, 'pm4': crew4_info.pm, 'occupation4': crew4_info.occupation,
         'age4': crew4_Age, 'contribution4': crew4_info.contribution, 'imageD4': crew4_imageDisplay, 'email4' : crew4_email,
 
-        'occ': '/discover'
+        'occ': '/discover',
+
+        'user_no': user_no.id_no
         }
 
 
@@ -2052,7 +2057,7 @@ class userProfileHandler(RegisterBaseHandler):
             'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
             'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
             }
-            return self.render_template('random.html', **template_values)
+            return self.render_template('user.html', **template_values)
         except (AttributeError, TypeError, ValueError), e:
             logging.error('Error updating privacy setting: ' + str(e))
             login_error_message = _('Sorry no such user exists.')
