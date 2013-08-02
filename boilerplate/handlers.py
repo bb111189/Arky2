@@ -1582,8 +1582,10 @@ class HomeRequestHandler(RegisterBaseHandler):
 
 
         """ Returns a simple HTML form for home """
-
-        user_no = models.User.get_by_id(long(self.user_id))
+        id_no = 0
+        if self.user:
+            user_no = models.User.get_by_id(long(self.user_id))
+            id_no = user_no.id_no
 
         cap = models.RandomDaily.get_by_role('captain')
         cap_info = models.User.get_by_id_no(cap.id_No)
@@ -1683,7 +1685,7 @@ class HomeRequestHandler(RegisterBaseHandler):
 
         'occ': '/discover',
 
-        'user_no': user_no.id_no
+        'user_no': id_no
         }
 
 
@@ -1709,6 +1711,10 @@ class RandomRequestHandler(RegisterBaseHandler):
 
     def get(self):
         """ Returns a simple HTML form for home """
+        id_no = 0
+        if self.user:
+            user_no = models.User.get_by_id(long(self.user_id))
+            id_no = user_no.id_no
 
         while 1==1:
             randNo = random.randint(1, models.User.id_gen())
@@ -1739,7 +1745,7 @@ class RandomRequestHandler(RegisterBaseHandler):
         template_values = {
         'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
         'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-        'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
+        'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email, 'user_no': id_no
         }
         return self.render_template('lucky.html', **template_values)
 
@@ -2026,6 +2032,12 @@ class userProfileHandler(RegisterBaseHandler):
         return age
 
     def get(self):
+        id_no = 0
+        if self.user:
+            user_no = models.User.get_by_id(long(self.user_id))
+            id_no = user_no.id_no
+
+
         try:
             idno = int(self.request.get("id"))
             user_info = models.User.get_by_id_no(idno)
@@ -2055,7 +2067,7 @@ class userProfileHandler(RegisterBaseHandler):
             template_values = {
             'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
             'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
+            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email,  'user_no': id_no
             }
             return self.render_template('user.html', **template_values)
         except (AttributeError, TypeError, ValueError), e:
@@ -2157,6 +2169,12 @@ class discoverHandler(RegisterBaseHandler):
         return age
 
     def get(self):
+        id_no = 0
+        if self.user:
+            user_no = models.User.get_by_id(long(self.user_id))
+            id_no = user_no.id_no
+
+
         occ_title = self.request.get("occ")
         occ_count = models.User.count_by_occ(occ_title)
         if occ_count is not 0:
@@ -2190,7 +2208,7 @@ class discoverHandler(RegisterBaseHandler):
             template_values = {
             'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
             'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email
+            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email, 'user_no': id_no
             }
             return self.render_template('lucky.html', **template_values)
         else:
