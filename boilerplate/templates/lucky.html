@@ -80,7 +80,11 @@
                                     <dd>{{ occupation }}</dd>
                                     <dt>Email: </dt>
                                     <dd>{{ email_cap }}</dd>
-
+                                    <center>
+                                        {% if not email_cap == "Undisclosed" %}
+                                            <a href="mailto:{{ email_cap }}"><img src="boilerplate/img/email.png"></a>
+                                        {% endif %}
+                                    </center>
                                 </dl>
 
                             </div>
