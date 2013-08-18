@@ -33,6 +33,9 @@ class Privacy(User):
     email = ndb.BooleanProperty(default=True)
     age = ndb.BooleanProperty(default=True)
     country = ndb.BooleanProperty(default=True)
+    fb = ndb.BooleanProperty(default=True)
+    twit  = ndb.BooleanProperty(default=True)
+    link = ndb.BooleanProperty(default=True)
 
     @classmethod
     def get_by_id_no(cls, id_no):
@@ -84,6 +87,9 @@ class User(User):
     id_no = ndb.IntegerProperty(default=0)
     avatar = ndb.BlobProperty()
     profile = ndb.StringProperty()
+    facebook = ndb.StringProperty()
+    twitter = ndb.StringProperty()
+    linkedin = ndb.StringProperty()
 
     @classmethod
     def get_by_email(cls, email):

@@ -78,9 +78,20 @@
                                     <dd>{{ country }}</dd>
                                     <dt>Working as</dt>
                                     <dd>{{ occupation }}</dd>
-                                    <dt>Email: </dt>
-                                    <dd>{{ email_cap }}</dd>
-
+                                    <center>
+                                    {% if not email_cap == "Undisclosed" %}
+                                        <a href="mailto:{{ email_cap }}"><img src="boilerplate/img/email.png"></a>
+                                    {% endif %}
+                                    {% if not cap_fb == "Undisclosed" %}
+                                        <a href={{cap_fb}}><img src="boilerplate/img/fb.png"></a>
+                                    {% endif %}
+                                    {% if not cap_twit == "Undisclosed" %}
+                                        <a href={{cap_twit}}><img src="boilerplate/img/twitter.png"></a>
+                                    {% endif %}
+                                    {% if not cap_link == "Undisclosed" %}
+                                        <a href={{cap_link}}><img src="boilerplate/img/link.png"></a>
+                                    {% endif %}
+                                    </center>
                                 </dl>
 
                             </div>

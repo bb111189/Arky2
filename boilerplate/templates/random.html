@@ -81,8 +81,15 @@
                                     {% if not email_cap == "Undisclosed" %}
                                         <a href="mailto:{{ email_cap }}"><img src="boilerplate/img/email.png"></a>
                                     {% endif %}
-
-                                        <img src="boilerplate/img/fb.png">
+                                    {% if not cap_fb == "Undisclosed" %}
+                                        <a href={{cap_fb}}><img src="boilerplate/img/fb.png"></a>
+                                    {% endif %}
+                                    {% if not cap_twit == "Undisclosed" %}
+                                        <a href={{cap_twit}}><img src="boilerplate/img/twitter.png"></a>
+                                    {% endif %}
+                                    {% if not cap_link == "Undisclosed" %}
+                                        <a href={{cap_link}}><img src="boilerplate/img/link.png"></a>
+                                    {% endif %}
                                     </center>
                                 </dl>
 
@@ -132,6 +139,15 @@
                                     {% if not email1 == "Undisclosed" %}
                                         <a href="mailto:{{ email1 }}"><img src="boilerplate/img/email.png"></a>
                                     {% endif %}
+                                    {% if not crew1_fb == "Undisclosed" %}
+                                        <a href={{crew1_fb}}><img src="boilerplate/img/fb.png"></a>
+                                    {% endif %}
+                                    {% if not crew1_twit == "Undisclosed" %}
+                                        <a href={{crew1_twit}}><img src="boilerplate/img/twitter.png"></a>
+                                    {% endif %}
+                                    {% if not crew1_link == "Undisclosed" %}
+                                        <a href={{crew1_link}}><img src="boilerplate/img/link.png"></a>
+                                    {% endif %}
                                 </center>
                             </dl>
 
@@ -164,6 +180,15 @@
                                 <center>
                                     {% if not email2 == "Undisclosed" %}
                                         <a href="mailto:{{ email2 }}"><img src="boilerplate/img/email.png"></a>
+                                    {% endif %}
+                                    {% if not crew2_fb == "Undisclosed" %}
+                                        <a href={{crew2_fb}}><img src="boilerplate/img/fb.png"></a>
+                                    {% endif %}
+                                    {% if not crew2_twit == "Undisclosed" %}
+                                        <a href={{crew2_twit}}><img src="boilerplate/img/twitter.png"></a>
+                                    {% endif %}
+                                    {% if not crew2_link == "Undisclosed" %}
+                                        <a href={{crew2_link}}><img src="boilerplate/img/link.png"></a>
                                     {% endif %}
                                 </center>
                             </dl>
@@ -198,6 +223,15 @@
                                     {% if not email3 == "Undisclosed" %}
                                         <a href="mailto:{{ email3 }}"><img src="boilerplate/img/email.png"></a>
                                     {% endif %}
+                                    {% if not crew3_fb == "Undisclosed" %}
+                                        <a href={{crew3_fb}}><img src="boilerplate/img/fb.png"></a>
+                                    {% endif %}
+                                    {% if not crew3_twit == "Undisclosed" %}
+                                        <a href={{crew3_twit}}><img src="boilerplate/img/twitter.png"></a>
+                                    {% endif %}
+                                    {% if not crew3_link == "Undisclosed" %}
+                                        <a href={{crew3_link}}><img src="boilerplate/img/link.png"></a>
+                                    {% endif %}
                                 </center>
                             </dl>
 
@@ -228,6 +262,15 @@
                                 <center>
                                     {% if not email4 == "Undisclosed" %}
                                         <a href="mailto:{{ email4 }}"><img src="boilerplate/img/email.png"></a>
+                                    {% endif %}
+                                    {% if not crew4_fb == "Undisclosed" %}
+                                        <a href={{crew4_fb}}><img src="boilerplate/img/fb.png"></a>
+                                    {% endif %}
+                                    {% if not crew4_twit == "Undisclosed" %}
+                                        <a href={{crew4_twit}}><img src="boilerplate/img/twitter.png"></a>
+                                    {% endif %}
+                                    {% if not crew4_link == "Undisclosed" %}
+                                        <a href={{crew4_link}}><img src="boilerplate/img/link.png"></a>
                                     {% endif %}
                                 </center>
                             </dl>
@@ -301,6 +344,11 @@
                     {{ macros.field(form.contribution, label=_("Contribution"), class="input-xlarge required", cols="40", rows="8") }}
                     {{ macros.field(form.pm, label=_("Personal Message"), class="input-xlarge required", cols="40", rows="4") }}
                     {{ macros.field(form.dob, label=_("Date of birth"), placeholder=_("YYYY-MM-DD")) }}
+                    {{ macros.field(form.facebook, label=_("Facebook Profile"), placeholder=_("www.facebook.com/profilelink"), class="input-xlarge focused") }}
+                    {{ macros.field(form.twitter, label=_("Twitter Profile"), placeholder=_("twitter.com/profilelink"), class="input-xlarge focused") }}
+                    {{ macros.field(form.linkedin, label=_("LinkedIn Profile"), placeholder=_("linkedin.com/in/profilelink/"), class="input-xlarge focused") }}
+
+
                     <label class="control-label" for="avatar">Upload a avatar</label>
                     <div class="controls">
                         <input type="file" name="avatar" class="input-xlarge focused required"/>

@@ -786,6 +786,11 @@ class RegisterHandler(RegisterBaseHandler):
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
         avatar = self.request.get('avatar')
+        facebook = self.form.facebook.data.strip()
+        twitter1 = self.form.twitter.data.strip()
+        linkedin1 = self.form.linkedin.data.strip()
+
+
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
@@ -796,7 +801,7 @@ class RegisterHandler(RegisterBaseHandler):
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
             ip=self.request.remote_addr, country=country, occupation=occupation,
-            contribution=contribution, pm=pm, dob=dob, id_no=id_no
+            contribution=contribution, pm=pm, dob=dob, id_no=id_no, facebook=facebook, twitter=twitter1, linkedin=linkedin1
         )
 
         priv = models.Privacy(id_no=id_no)
@@ -829,6 +834,9 @@ class RegisterHandler(RegisterBaseHandler):
                     user_obj.country = True
                     user_obj.email = True
                     user_obj.dob = True
+                    user_obj.fb = True
+                    user_obj.twit = True
+                    user_obj.link = True
                     user_obj.put()
                 except:
                     pass
@@ -1124,6 +1132,9 @@ class EditProfileHandler(BaseHandler):
             self.form.contribution.data = user_info.contribution
             self.form.occupation.data = user_info.occupation
             self.form.dob.data = user_info.dob
+            self.form.facebook.data = user_info.facebook
+            self.form.twitter.data = user_info.twitter
+            self.form.linkedin.data = user_info.linkedin
 
             providers_info = user_info.get_social_providers_info()
             if not user_info.password:
@@ -1150,6 +1161,9 @@ class EditProfileHandler(BaseHandler):
         occupation = self.form.occupation.data
         dob = self.form.dob.data
         avatar = self.request.get('avatar')
+        facebook = self.form.facebook.data.strip()
+        twitter = self.form.twitter.data.strip()
+        linkedin = self.form.linkedin.data.strip()
 
         try:
             user_info = models.User.get_by_id(long(self.user_id))
@@ -1185,6 +1199,9 @@ class EditProfileHandler(BaseHandler):
                 user_info.contribution = contribution
                 user_info.occupation = occupation
                 user_info.dob = dob
+                user_info.facebook = facebook
+                user_info.twitter = twitter
+                user_info.linkedin = linkedin
                 user_info.put()
 
 
@@ -1593,8 +1610,12 @@ class HomeRequestHandler(RegisterBaseHandler):
         cap_country = pycountry.countries.get(alpha2=cap_info.country)
         cap_email = cap_info.email
         cap_imageDisplay= None
+        cap_fb = cap_info.facebook
+        cap_twit = cap_info.twitter
+        cap_link = cap_info.linkedin
         if cap_info.avatar is not None:
             cap_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(cap_info.id_no) + '">'
+
         cap_prv = models.Privacy.get_by_id_no(cap_info.id_no)
         if cap_prv.age == False:
             cap_Age = "Undisclosed"
@@ -1602,6 +1623,19 @@ class HomeRequestHandler(RegisterBaseHandler):
             cap_country.name = "Undisclosed"
         if cap_prv.email == False:
             cap_email = "Undisclosed"
+        if cap_prv.fb == False or cap_fb is None:
+            cap_fb = "Undisclosed"
+        elif not 'http' in cap_fb:
+            cap_fb = "http://" + cap_fb
+        if cap_prv.twit == False or cap_twit is None:
+            cap_twit = "Undisclosed"
+        elif not 'http' in cap_twit:
+            cap_twit = "http://" + cap_twit
+        if cap_prv.link == False or cap_link is None:
+            cap_link = "Undisclosed"
+        elif not 'http' in cap_link:
+            cap_link = "http://" + cap_link
+
 
         crew1 = models.RandomDaily.get_by_role('crew1')
         crew1_info = models.User.get_by_id_no(crew1.id_No)
@@ -1609,6 +1643,9 @@ class HomeRequestHandler(RegisterBaseHandler):
         crew1_email = crew1_info.email
         crew1_country = pycountry.countries.get(alpha2=crew1_info.country)
         crew1_imageDisplay= None
+        crew1_fb = crew1_info.facebook
+        crew1_twit = crew1_info.twitter
+        crew1_link = crew1_info.linkedin
         if crew1_info.avatar is not None:
             crew1_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew1_info.id_no) + '">'
         crew1_prv = models.Privacy.get_by_id_no(crew1_info.id_no)
@@ -1618,12 +1655,27 @@ class HomeRequestHandler(RegisterBaseHandler):
             crew1_country.name = "Undisclosed"
         if crew1_prv.email == False:
             crew1_email = "Undisclosed"
+        if crew1_prv.fb == False or crew1_fb is None:
+            crew1_fb = "Undisclosed"
+        elif not 'http' in crew1_fb:
+            crew1_fb = "http://" + crew1_fb
+        if crew1_prv.twit == False or crew1_twit is None:
+            crew1_twit = "Undisclosed"
+        elif not 'http' in crew1_twit:
+            crew1_twit = "http://" + crew1_twit
+        if crew1_prv.link == False or crew1_link is None:
+            crew1_link = "Undisclosed"
+        elif not 'http' in crew1_link:
+            crew1_link = "http://" + crew1_link
 
         crew2 = models.RandomDaily.get_by_role('crew2')
         crew2_info = models.User.get_by_id_no(crew2.id_No)
         crew2_Age = self.ageCal(crew2_info.dob)
         crew2_email = crew2_info.email
         crew2_country = pycountry.countries.get(alpha2=crew2_info.country)
+        crew2_fb = crew2_info.facebook
+        crew2_twit = crew2_info.twitter
+        crew2_link = crew2_info.linkedin
         crew2_imageDisplay= None
         if crew2_info.avatar is not None:
             crew2_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew2_info.id_no) + '">'
@@ -1634,12 +1686,27 @@ class HomeRequestHandler(RegisterBaseHandler):
             crew2_country.name = "Undisclosed"
         if crew2_prv.email == False:
             crew2_email = "Undisclosed"
+        if crew2_prv.fb == False or crew2_fb is None:
+            crew2_fb = "Undisclosed"
+        elif not 'http' in crew2_fb:
+            crew2_fb = "http://" + crew2_fb
+        if crew2_prv.twit == False or crew2_twit is None:
+            crew2_twit = "Undisclosed"
+        elif not 'http' in crew2_twit:
+            crew2_twit = "http://" + crew2_twit
+        if crew2_prv.link == False or crew2_link is None:
+            crew2_link = "Undisclosed"
+        elif not 'http' in crew2_link:
+            crew2_link = "http://" + crew2_link
 
         crew3 = models.RandomDaily.get_by_role('crew3')
         crew3_info = models.User.get_by_id_no(crew3.id_No)
         crew3_Age = self.ageCal(crew3_info.dob)
         crew3_email = crew3_info.email
         crew3_country = pycountry.countries.get(alpha2=crew3_info.country)
+        crew3_fb = crew3_info.facebook
+        crew3_twit = crew3_info.twitter
+        crew3_link = crew3_info.linkedin
         crew3_imageDisplay= None
         if crew3_info.avatar is not None:
             crew3_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew3_info.id_no) + '">'
@@ -1650,12 +1717,27 @@ class HomeRequestHandler(RegisterBaseHandler):
             crew3_country.name = "Undisclosed"
         if crew3_prv.email == False:
             crew3_email = "Undisclosed"
+        if crew3_prv.fb == False or crew3_fb is None:
+            crew3_fb = "Undisclosed"
+        elif not 'http' in crew3_fb:
+            crew3_fb = "http://" + crew3_fb
+        if crew3_prv.twit == False or crew3_twit is None:
+            crew3_twit = "Undisclosed"
+        elif not 'http' in crew3_twit:
+            crew3_twit = "http://" + crew3_twit
+        if crew3_prv.link == False or crew3_link is None:
+            crew3_link = "Undisclosed"
+        elif not 'http' in crew3_link:
+            crew3_link = "http://" + crew3_link
 
         crew4 = models.RandomDaily.get_by_role('crew4')
         crew4_info = models.User.get_by_id_no(crew4.id_No)
         crew4_Age = self.ageCal(crew4_info.dob)
         crew4_email = crew4_info.email
         crew4_country = pycountry.countries.get(alpha2=crew4_info.country)
+        crew4_fb = crew4_info.facebook
+        crew4_twit = crew4_info.twitter
+        crew4_link = crew4_info.linkedin
         crew4_imageDisplay= None
         if crew4_info.avatar is not None:
             crew4_imageDisplay = '<img class="img-circle" width="85px" src="ava?id=' + str(crew4_info.id_no) + '">'
@@ -1666,22 +1748,39 @@ class HomeRequestHandler(RegisterBaseHandler):
             crew4_country.name = "Undisclosed"
         if crew4_prv.email == False:
             crew4_email = "Undisclosed"
+        if crew4_prv.fb == False or crew4_fb is None:
+            crew4_fb = "Undisclosed"
+        elif not 'http' in crew4_fb:
+            crew4_fb = "http://" + crew4_fb
+        if crew4_prv.twit == False or crew4_twit is None:
+            crew4_twit = "Undisclosed"
+        elif not 'http' in crew4_twit:
+            crew4_twit = "http://" + crew4_twit
+        if crew4_prv.link == False or crew4_link is None:
+            crew4_link = "Undisclosed"
+        elif not 'http' in crew4_link:
+            crew4_link = "http://" + crew4_link
 
         template_values = {
         'name': cap_info.name, 'country': cap_country.name, 'pm': cap_info.pm, 'occupation': cap_info.occupation,
         'age': cap_Age, 'contribution': cap_info.contribution, 'imageD': cap_imageDisplay, 'email_cap' : cap_email,
+        'cap_fb' : cap_fb, 'cap_twit': cap_twit, 'cap_link': cap_link,
 
         'name1': crew1_info.name, 'country1': crew1_country.name, 'pm1': crew1_info.pm, 'occupation1': crew1_info.occupation,
         'age1': crew1_Age, 'contribution1': crew1_info.contribution, 'imageD1': crew1_imageDisplay, 'email1' : crew1_email,
+        'crew1_fb' : crew1_fb, 'crew1_twit': crew1_twit, 'crew1_link': crew1_link,
 
         'name2': crew2_info.name, 'country2': crew2_country.name, 'pm2': crew2_info.pm, 'occupation2': crew2_info.occupation,
         'age2': crew2_Age, 'contribution2': crew2_info.contribution, 'imageD2': crew2_imageDisplay, 'email2' : crew2_email,
+        'crew2_fb' : crew2_fb, 'crew2_twit': crew2_twit, 'crew2_link': crew2_link,
 
         'name3': crew3_info.name, 'country3': crew3_country.name, 'pm3': crew3_info.pm, 'occupation3': crew3_info.occupation,
         'age3': crew3_Age, 'contribution3': crew3_info.contribution, 'imageD3': crew3_imageDisplay, 'email3' : crew3_email,
+        'crew3_fb' : crew3_fb, 'crew3_twit': crew3_twit, 'crew3_link': crew3_link,
 
         'name4': crew4_info.name, 'country4': crew4_country.name, 'pm4': crew4_info.pm, 'occupation4': crew4_info.occupation,
         'age4': crew4_Age, 'contribution4': crew4_info.contribution, 'imageD4': crew4_imageDisplay, 'email4' : crew4_email,
+        'crew4_fb' : crew4_fb, 'crew4_twit': crew4_twit, 'crew4_link': crew4_link,
 
         'occ': '/discover',
 
@@ -1725,7 +1824,9 @@ class RandomRequestHandler(RegisterBaseHandler):
         user_info = models.User.get_by_id_no(randNo) #to change
         age = self.ageCal(user_info.dob)
         country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
-
+        cap_fb = user_info.facebook
+        cap_twit = user_info.twitter
+        cap_link = user_info.linkedin
         """ Avatar display """
         imageDisplay= None
         if user_info.avatar is not None:
@@ -1740,12 +1841,24 @@ class RandomRequestHandler(RegisterBaseHandler):
             email = "Undisclosed"
         else:
             email = user_info.email
-
+        if user_prv.fb == False or cap_fb is None:
+            cap_fb = "Undisclosed"
+        elif not 'http' in cap_fb:
+            cap_fb = "http://" + cap_fb
+        if user_prv.twit == False or cap_twit is None:
+            cap_twit = "Undisclosed"
+        elif not 'http' in cap_twit:
+            cap_twit = "http://" + cap_twit
+        if user_prv.link == False or cap_link is None:
+            cap_link = "Undisclosed"
+        elif not 'http' in cap_link:
+            cap_link = "http://" + cap_link
 
         template_values = {
         'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
         'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-        'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email, 'user_no': id_no
+        'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email, 'user_no': id_no,
+        'cap_fb' : cap_fb, 'cap_twit': cap_twit, 'cap_link': cap_link
         }
         return self.render_template('lucky.html', **template_values)
 
@@ -2048,7 +2161,9 @@ class userProfileHandler(RegisterBaseHandler):
             #user_info = models.User.get_by_id_no(1)
             age = self.ageCal(user_info.dob)
             country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
-
+            cap_fb = user_info.facebook
+            cap_twit = user_info.twitter
+            cap_link = user_info.linkedin
             """ Avatar display """
             imageDisplay= None
             if user_info.avatar is not None:
@@ -2063,11 +2178,24 @@ class userProfileHandler(RegisterBaseHandler):
                 email = "Undisclosed"
             else:
                 email = user_info.email
+            if user_prv.fb == False or cap_fb is None:
+                cap_fb = "Undisclosed"
+            elif not 'http' in cap_fb:
+                cap_fb = "http://" + cap_fb
+            if user_prv.twit == False or cap_twit is None:
+                cap_twit = "Undisclosed"
+            elif not 'http' in cap_twit:
+                cap_twit = "http://" + cap_twit
+            if user_prv.link == False or cap_link is None:
+                cap_link = "Undisclosed"
+            elif not 'http' in cap_link:
+                cap_link = "http://" + cap_link
 
             template_values = {
             'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
             'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email,  'user_no': id_no
+            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email,  'user_no': id_no,
+            'cap_fb' : cap_fb, 'cap_twit': cap_twit, 'cap_link': cap_link,
             }
             return self.render_template('user.html', **template_values)
         except (AttributeError, TypeError, ValueError), e:
@@ -2088,6 +2216,9 @@ class privacyHandler(RegisterBaseHandler):
             self.form.p_email.data = user_obj.email
             self.form.p_country.data = user_obj.country
             self.form.p_dob.data = user_obj.age
+            self.form.p_fb.data = user_obj.fb
+            self.form.p_twit.data = user_obj.twit
+            self.form.p_link.data = user_obj.link
 
             providers_info = user_info.get_social_providers_info()
             if not user_info.password:
@@ -2108,7 +2239,9 @@ class privacyHandler(RegisterBaseHandler):
         p_email = self.form.p_email.data
         p_country = self.form.p_country.data
         p_age = self.form.p_dob.data
-
+        p_fb = self.form.p_fb.data
+        p_twit = self.form.p_twit.data
+        p_link = self.form.p_link.data
 
         try:
             user_info = models.User.get_by_id(long(self.user_id))
@@ -2125,6 +2258,9 @@ class privacyHandler(RegisterBaseHandler):
                 user_obj.country  = p_country
                 user_obj.age = p_age
                 user_obj.email = p_email
+                user_obj.fb = p_fb
+                user_obj.twit = p_twit
+                user_obj.link = p_link
                 user_obj.put()
 
                 message+= " " + _('Thanks, your privacy settings have been saved.')
@@ -2192,6 +2328,9 @@ class discoverHandler(RegisterBaseHandler):
             age = self.ageCal(user_info.dob)
             country = pycountry.countries.get(alpha2=user_info.country) #country code convertor
             email = user_info.email
+            cap_fb = user_info.facebook
+            cap_twit = user_info.twitter
+            cap_link = user_info.linkedin
             """ Avatar display """
             imageDisplay= None
             if user_info.avatar is not None:
@@ -2204,11 +2343,24 @@ class discoverHandler(RegisterBaseHandler):
                 country.name = "Undisclosed"
             if user_prv.email == False:
                 email = "Undisclosed"
+            if user_prv.fb == False or cap_fb is None:
+                cap_fb = "Undisclosed"
+            elif not 'http' in cap_fb:
+                cap_fb = "http://" + cap_fb
+            if user_prv.twit == False or cap_twit is None:
+                cap_twit = "Undisclosed"
+            elif not 'http' in cap_twit:
+                cap_twit = "http://" + cap_twit
+            if user_prv.link == False or cap_link is None:
+                cap_link = "Undisclosed"
+            elif not 'http' in cap_link:
+                cap_link = "http://" + cap_link
 
             template_values = {
             'name': user_info.name, 'country': country.name, 'pm': user_info.pm, 'occupation': user_info.occupation,
             'age': age, 'contribution': user_info.contribution, 'avatar': user_info.avatar,
-            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email, 'user_no': id_no
+            'id': user_info.id_no, 'imageD': imageDisplay, 'email_cap' : email, 'user_no': id_no,
+            'cap_fb' : cap_fb, 'cap_twit': cap_twit, 'cap_link': cap_link
             }
             return self.render_template('lucky.html', **template_values)
         else:

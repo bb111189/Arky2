@@ -55,7 +55,13 @@ class UserMixin(BaseForm):
     p_email = fields.BooleanField(_('Email'))
     p_country = fields.BooleanField(_('Country'))
     p_dob = fields.BooleanField(_('Age'))
+    p_fb = fields.BooleanField(_('Facebook'))
+    p_twit = fields.BooleanField(_('Twitter'))
+    p_link = fields.BooleanField(_('LinkedIn'))
     occ = fields.TextField(_('occ'), [validators.Length(max=FIELD_MAXLENGTH)])
+    facebook = fields.TextAreaField(_('Facebook'), [validators.Length(max=160)])
+    twitter = fields.TextAreaField(_('Twitter'), [validators.Length(max=160)])
+    linkedin = fields.TextAreaField(_('Linkedin'), [validators.Length(max=160)])
 
 class privacyForm(BaseForm):
     p_email = fields.BooleanField(_('p_Email'))

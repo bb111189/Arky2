@@ -20,6 +20,11 @@
                 {{ macros.field(form.occupation, label=_("Occupation"), placeholder=_("Enter your")+" "+_("Occupation"), class="input-xlarge focused") }}
                 {{ macros.field(form.dob, label=_("Date of birth"), placeholder=_("YYYY-MM-DD")) }}
                 {{ macros.field(form.contribution, label=_("Contribution"), class="input-xlarge required", cols="40", rows="8") }}
+
+                {{ macros.field(form.facebook, label=_("Facebook Profile"), placeholder=_("www.facebook.com/profilelink"), class="input-xlarge focused") }}
+                {{ macros.field(form.twitter, label=_("Twitter Profile"), placeholder=_("twitter.com/profilelink"), class="input-xlarge focused") }}
+                {{ macros.field(form.linkedin, label=_("LinkedIn Profile"), placeholder=_("linkedin.com/in/profilelink/"), class="input-xlarge focused") }}
+
                 <label class="control-label" for="avatar">Upload a avatar</label>
                 <div class="controls">
                     <input type="file" name="avatar" />

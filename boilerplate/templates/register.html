@@ -8,6 +8,7 @@
     <form id="form_register" action="{{ url|safe }}" method="post" class="well form-horizontal" enctype="multipart/form-data">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+
             {{ macros.field(form.username, label=_("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
             {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
             {{ macros.field(form.last_name, label=_("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
@@ -21,10 +22,12 @@
             {{ macros.field(form.contribution, label=_("Contribution"), class="input-xlarge required", cols="40", rows="8") }}
             {{ macros.field(form.pm, label=_("Personal Message"), class="input-xlarge required", cols="40", rows="4") }}
             {{ macros.field(form.dob, label=_("Date of birth"), placeholder=_("YYYY-MM-DD")) }}
+
             <label class="control-label" for="avatar">Upload a avatar*</label>
             <div class="controls">
                 <input type="file" name="avatar" class="input-xlarge focused required"/>
              </div>
+
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>
             </div>
